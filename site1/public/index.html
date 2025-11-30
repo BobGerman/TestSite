@@ -54,6 +54,7 @@
     
     <div class="api-section">
         <h2>API Demo</h2>
+        <input id="promptInput" type="text" placeholder="Enter prompt" />
         <p>Click the button below to fetch users from our API endpoint:</p>
         <button onclick="fetchMessage()">Fetch Message</button>
         <button onclick="checkHealth()">Check Server Health</button>
@@ -65,7 +66,8 @@
         async function fetchMessage() {
             try {
                 showResults('Loading...');
-                const response = await fetch('/api/message');
+                const prompt = document.getElementById('promptInput').value;
+                const response = await fetch(`/api/message?prompt=${encodeURIComponent(prompt)}`);
                 const data = await response.json();
                 showResults(JSON.stringify(data, null, 2));
             } catch (error) {

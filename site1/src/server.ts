@@ -29,6 +29,9 @@ app.get('/api/users', (req, res) => {
 // Call the LLM
 app.get('/api/message', (req, res) => {
 
+  let prompt = req.query.prompt || 'Greet the user';
+  prompt += 'Answer in 25 words or less.';
+
   const LLM_SERVER_URL = 'http://tehuti.lab:81/v1/completions';
   
   // Make a POST request to LLM server
@@ -39,8 +42,8 @@ app.get('/api/message', (req, res) => {
     },
     body: JSON.stringify({
       model: 'openai/gpt-oss-120b',
-      prompt: 'Greet the user',
-      max_tokens: 2000,
+      prompt: prompt,
+      max_tokens: 300,
       temperature: 0.5
     })
   })
