@@ -1,0 +1,16 @@
+GET http://tehuti.lab:81/v1/models
+
+###
+
+
+POST http://tehuti.lab:81/v1/completions HTTP/1.1
+content-type: application/json
+
+{
+   "model": "openai/gpt-oss-120b",
+   "prompt": "Greet the user",
+   "max_tokens": 2000,
+   "temperature": 0.5
+}
+
+###

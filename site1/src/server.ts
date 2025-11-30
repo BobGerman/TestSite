@@ -26,6 +26,43 @@ app.get('/api/users', (req, res) => {
   });
 });
 
+// Call the LLM
+app.get('/api/message', (req, res) => {
+
+  const LLM_SERVER_URL = 'http://tehuti.lab:81/v1/completions';
+  
+  // Make a POST request to LLM server
+  fetch(LLM_SERVER_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: 'openai/gpt-oss-120b',
+      prompt: 'Greet the user',
+      max_tokens: 2000,
+      temperature: 0.5
+    })
+  })
+    .then(response => response.json())
+    .then(data => {
+      let d: any = data as any;
+      res.json({
+        success: true,
+        message: 'LLM response retrieved successfully',
+        data: extractMessage(d.choices[0].text)
+      });
+    })
+    .catch(error => {
+      console.error('Error calling LLM server:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error calling LLM server',
+        error: error.message
+      });
+    });
+  });
+
 // Serve the main web page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
@@ -44,5 +81,21 @@ app.get('/api/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+// Utility functions
+
+// Function to take input in the form:
+// '"<|channel|>analysis<|message|>We need to greet.<|end|><|start|>assistant<|channel|>final<|message|>Hello! How can I assist you today?'
+// and return the extracted message: 'Hello! How can I assist you today?'
+function extractMessage(input: string): string {
+  const FINAL_TEXT_MARKER = 'final<|message|>';
+  const startIndex = input.indexOf(FINAL_TEXT_MARKER);
+
+  if (startIndex === -1 ) {
+    return 'No message found';
+  }
+
+  return input.substring(startIndex + FINAL_TEXT_MARKER.length).trim();
+}
 
 export default app;
