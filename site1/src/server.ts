@@ -52,15 +52,15 @@ app.get('/api/message', (req, res) => {
       let d: any = data as any;
       res.json({
         success: true,
-        message: 'LLM response retrieved successfully',
-        data: extractMessage(d.choices[0].text)
+        statusMessage: 'LLM response retrieved successfully',
+        completion: extractMessage(d.choices[0].text)
       });
     })
     .catch(error => {
       console.error('Error calling LLM server:', error);
       res.status(500).json({
         success: false,
-        message: 'Error calling LLM server',
+        statusMessage: 'Error calling LLM server',
         error: error.message
       });
     });
@@ -76,7 +76,7 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'OK',
     timestamp: new Date().toISOString(),
-    message: 'Server is running'
+    statusMessage: 'Server is running'
   });
 });
 
