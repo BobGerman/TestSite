@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Express TypeScript App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .api-section {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #results {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+
+        #response {
+            background-color: black;
+            color: white;
+            font-size: large;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Welcome to Express TypeScript App</h1>
+
+    <p>This is a simple Express application built with TypeScript. It demonstrates serving a static web page and
+        providing API endpoints.</p>
+
+    <div class="api-section">
+        <h2>API Demo</h2>
+        <input id="promptInput" type="text" placeholder="Enter prompt" style="width: 100%;height: 40px;" />
+        <p>Click the button below to call the OpenAPI compatible LLM from our API endpoint:</p>
+        <button onclick="callLlm()">Call LLM</button>
+        <button onclick="checkHealth()">Check Server Health</button>
+        <div id="response" class="hidden"></div>
+        <div id="results" class="hidden"></div>
+    </div>
+
+    <script>
+        async function callLlm() {
+            try {
+                showResults('Loading...');
+                const prompt = document.getElementById('promptInput').value;
+                const response = await fetch(`/api/message?prompt=${encodeURIComponent(prompt)}`);
+                const data = await response.json();
+                showResults(JSON.stringify(data, null, 2));
+
+                if (data.completion) {
+                    const responseDiv = document.getElementById('response');
+                    responseDiv.textContent = data.completion;
+                    responseDiv.classList.remove('hidden');
+                } else {
+                    responseDiv.classList.add('hidden');
+                }
+            } catch (error) {
+                showResults('Error: ' + error.message);
+            }
+        }
+
+        async function checkHealth() {
+            try {
+                showResults('Checking server health...');
+                const response = await fetch('/api/health');
+                const data = await response.json();
+                showResults(JSON.stringify(data, null, 2));
+            } catch (error) {
+                showResults('Error: ' + error.message);
+            }
+        }
+
+        function showResults(content) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.textContent = content;
+            resultsDiv.classList.remove('hidden');
+        }
+    </script>
+</body>
+
+</html>
