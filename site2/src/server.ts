@@ -1,5 +1,7 @@
 import express from 'express';
 import path from 'path';
+import { generateText } from 'ai';
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,61 +12,41 @@ app.use(express.static('public'));
 // Parse JSON requests
 app.use(express.json());
 
-// Sample hard-coded data
-const sampleData = [
-  { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Developer' },
-  { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'Designer' },
-  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'Manager' }
-];
-
-// API endpoint with hard-coded data
-app.get('/api/users', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Users retrieved successfully',
-    data: sampleData
-  });
-});
 
 // Call the LLM
-app.get('/api/message', (req, res) => {
+app.get('/api/message', async (req, res) => {
 
-  let prompt = req.query.prompt || 'Greet the user';
-  prompt += 'Answer in 25 words or less.';
+  try {
 
-  const LLM_SERVER_URL = 'http://tehuti.lab:81/v1/completions';
-  
-  // Make a POST request to LLM server
-  fetch(LLM_SERVER_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      model: 'openai/gpt-oss-120b',
-      prompt: prompt,
-      max_tokens: 300,
-      temperature: 0.5
-    })
-  })
-    .then(response => response.json())
-    .then(data => {
-      let d: any = data as any;
-      res.json({
-        success: true,
-        statusMessage: 'LLM response retrieved successfully',
-        completion: extractMessage(d.choices[0].text)
-      });
-    })
-    .catch(error => {
-      console.error('Error calling LLM server:', error);
-      res.status(500).json({
-        success: false,
-        statusMessage: 'Error calling LLM server',
-        error: error.message
-      });
+    let prompt = (req.query.prompt || 'Greet the user') as string;
+
+    const lmstudio = createOpenAICompatible({
+      name: 'lmstudio',
+      baseURL: 'http://tehuti.lab:81/v1'
     });
-  });
+
+    const model = lmstudio("");
+
+    const { text } = await generateText({
+      model,
+      prompt,
+      temperature: 0.5
+    });
+    res.json({
+      success: true,
+      statusMessage: 'LLM response retrieved successfully',
+      completion: text
+    });
+  } catch (error: any) {
+    console.error('Error calling LLM:', error);
+    res.status(500).json({
+      success: false,
+      statusMessage: 'Error calling LLM',
+      error: error.message
+    });
+  }
+});
+
 
 // Serve the main web page
 app.get('/', (req, res) => {
@@ -87,14 +69,16 @@ app.listen(PORT, () => {
 
 // Utility functions
 
-// Function to take input in the form:
-// '"<|channel|>analysis<|message|>We need to greet.<|end|><|start|>assistant<|channel|>final<|message|>Hello! How can I assist you today?'
-// and return the extracted message: 'Hello! How can I assist you today?'
+// Function to extract the final message from an OpenAI compatible response
+// Example input:
+//   '"<|channel|>analysis<|message|>We need to greet.<|end|><|start|>assistant<|channel|>final<|message|>Hello! How can I assist you today?'
+// Exanoke result:
+//   'Hello! How can I assist you today?'
 function extractMessage(input: string): string {
   const FINAL_TEXT_MARKER = 'final<|message|>';
   const startIndex = input.indexOf(FINAL_TEXT_MARKER);
 
-  if (startIndex === -1 ) {
+  if (startIndex === -1) {
     return 'No message found';
   }
 
