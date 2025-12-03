@@ -1,7 +1,11 @@
+import * as dotenv from 'dotenv';
 import express from 'express';
 import path from 'path';
 import { generateText } from 'ai';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+
+// Load environment variables from .env file
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,12 +24,12 @@ app.get('/api/message', async (req, res) => {
 
     let prompt = (req.query.prompt || 'Greet the user') as string;
 
-    const lmstudio = createOpenAICompatible({
+    const modelProvider = createOpenAICompatible({
       name: 'lmstudio',
-      baseURL: 'http://tehuti.lab:81/v1'
+      baseURL: process.env.LLM_BASE_URL || 'http://localhost:1234/v1'
     });
 
-    const model = lmstudio("");
+    const model = modelProvider(process.env.LLM_MODEL_ID || "");
 
     const { text } = await generateText({
       model,
