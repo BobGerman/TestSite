@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv';
 import express from 'express';
 import path from 'path';
 import { generateText } from 'ai';
-import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+import { getLanguageModel } from './aimodel';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -18,18 +18,12 @@ app.use(express.json());
 
 
 // Call the LLM
+const model = getLanguageModel();
 app.get('/api/message', async (req, res) => {
 
   try {
 
     let prompt = (req.query.prompt || 'Greet the user') as string;
-
-    const modelProvider = createOpenAICompatible({
-      name: 'lmstudio',
-      baseURL: process.env.LLM_BASE_URL || 'http://localhost:1234/v1'
-    });
-
-    const model = modelProvider(process.env.LLM_MODEL_ID || "");
 
     const { text } = await generateText({
       model,
