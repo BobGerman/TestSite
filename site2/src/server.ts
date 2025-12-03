@@ -34,6 +34,7 @@ app.get('/api/message', async (req, res) => {
     const { text } = await generateText({
       model,
       prompt,
+      system: 'You are a helpful assistant who gives short and friendly answers, always 30 words or less.',
       temperature: 0.5
     });
     res.json({
