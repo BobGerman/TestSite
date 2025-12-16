@@ -6,6 +6,7 @@ import { getLanguageModel } from './aimodel';
 
 const DEFAULT_USER_PROMPT = 'Greet the user';
 const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and friendly answers, always 100 words or less.';
+const DEFAULT_TEMPERATURE = 0.5;
 
 // Load environment variables from .env file
 dotenv.config();
@@ -31,13 +32,7 @@ app.get('/api/message', async (req, res) => {
   try {
 
     let prompt = (req.query.prompt || DEFAULT_USER_PROMPT) as string;
-
-    const { text } = await generateText({
-      model,
-      prompt,
-      system: 'You are a helpful assistant who gives short and friendly answers, always 30 words or less.',
-      temperature: 0.5
-    });
+    const text = await getLLMCompletion(prompt);
     res.json({
       success: true,
       statusMessage: 'LLM response retrieved successfully',
@@ -53,26 +48,22 @@ app.get('/api/message', async (req, res) => {
   }
 });
 
+async function getLLMCompletion(prompt: string): Promise<string> {
+      const { text } = await generateText({
+      model,
+      prompt,
+      system: DEFAULT_SYSTEM_PROMPT,
+      temperature: DEFAULT_TEMPERATURE
+    });
+    return text;
+}
+
 // /api/streamtest - test LLM streaming
 app.get('/api/streamtest', async (req, res) => {
   try {
     // Test code for streaming response (not used in main code)
     let prompt = (req.query.prompt || DEFAULT_USER_PROMPT) as string;
-    let fullText = "";
-
-    const { textStream } = streamText({
-      model,
-      prompt,
-      system: DEFAULT_SYSTEM_PROMPT,
-      temperature: 0.5
-    });
-
-    process.stdout.write ("Streaming response: ");
-    for await (const chunk of textStream) {
-      process.stdout.write(chunk);
-      fullText += chunk;
-    }
-    process.stdout.write ("\n");
+    const fullText = await getStreamedCompletion(prompt);
 
     res.json({
       status: 'OK',
@@ -90,6 +81,25 @@ app.get('/api/streamtest', async (req, res) => {
     });
   }
 });
+
+async function getStreamedCompletion(prompt: string): Promise<string> {
+      let fullText = "";
+
+    const { textStream } = streamText({
+      model,
+      prompt,
+      system: DEFAULT_SYSTEM_PROMPT,
+      temperature: 0.5
+    });
+
+    process.stdout.write ("Streaming response: ");
+    for await (const chunk of textStream) {
+      process.stdout.write(chunk);
+      fullText += chunk;
+    }
+    process.stdout.write ("\n");
+    return fullText;
+}
 
 // Start the server
 app.listen(PORT, () => {
