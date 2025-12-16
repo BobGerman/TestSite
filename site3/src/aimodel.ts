@@ -1,8 +1,10 @@
 import * as dotenv from 'dotenv';
-import { generateText, LanguageModel } from 'ai';
+import { LanguageModel } from 'ai';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 
-export function getLanguageModel(): LanguageModel {
+function getLanguageModel(): LanguageModel {
+
+    dotenv.config();
 
     const modelProvider = createOpenAICompatible({
         name: 'lmstudio',
@@ -10,6 +12,9 @@ export function getLanguageModel(): LanguageModel {
     });
 
     const model = modelProvider(process.env.LLM_MODEL_ID || "");
-    return model;
+    console.log (`Using LLM model: ${process.env.LLM_MODEL_ID}`);
 
+    return model;
 }
+
+export default getLanguageModel();

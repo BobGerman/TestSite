@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv';
 import express from 'express';
 import path from 'path';
-import { generateText, streamText } from 'ai';
-import { getLanguageModel } from './aimodel';
+import { getLLMCompletion } from './apiMethods/oneshot';
+import { getStreamedCompletion } from './apiMethods/streamtest';
 
 const DEFAULT_USER_PROMPT = 'Greet the user';
 const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and friendly answers, always 100 words or less.';
@@ -26,7 +26,6 @@ app.get('/', (req, res) => {
 });
 
 // /api/message - one-shot LLM call
-const model = getLanguageModel();
 app.get([
   '/api/message',
   '/api/streamtest'
@@ -54,7 +53,7 @@ app.get([
         });
       }
     }
-    
+
     res.json({
       success: true,
       statusMessage: 'LLM response retrieved successfully',
@@ -70,58 +69,6 @@ app.get([
   }
 });
 
-async function getLLMCompletion(prompt: string): Promise<string> {
-  const { text } = await generateText({
-    model,
-    prompt,
-    system: DEFAULT_SYSTEM_PROMPT,
-    temperature: DEFAULT_TEMPERATURE
-  });
-  return text;
-}
-
-// /api/streamtest - test LLM streaming
-app.get('/api/streamtest', async (req, res) => {
-  try {
-    // Test code for streaming response (not used in main code)
-    let prompt = (req.query.prompt || DEFAULT_USER_PROMPT) as string;
-    const fullText = await getStreamedCompletion(prompt);
-
-    res.json({
-      status: 'OK',
-      timestamp: new Date().toISOString(),
-      statusMessage: `LLM returned ${fullText.length} characters:<br /> ${fullText}`
-    });
-
-  } catch (error: any) {
-
-    console.error('Stream test error:', error);
-    res.status(500).json({
-      status: 'ERROR',
-      statusMessage: 'Server encountered an error',
-      error: error.message
-    });
-  }
-});
-
-async function getStreamedCompletion(prompt: string): Promise<string> {
-  let fullText = "";
-
-  const { textStream } = streamText({
-    model,
-    prompt,
-    system: DEFAULT_SYSTEM_PROMPT,
-    temperature: 0.5
-  });
-
-  process.stdout.write("Streaming response: ");
-  for await (const chunk of textStream) {
-    process.stdout.write(chunk);
-    fullText += chunk;
-  }
-  process.stdout.write("\n");
-  return fullText;
-}
 
 // Start the server
 app.listen(PORT, () => {
