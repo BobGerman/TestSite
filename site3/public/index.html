@@ -9,14 +9,18 @@
 </head>
 
 <body>
-    <h1>Welcome to AI SDK test program</h1>
+    <h1>Vercel tutorial project</h1>
+
+    <p>This is a test project from the 
+        <a href="https://www.aihero.dev/vercel-ai-sdk-tutorial" target="_blank">Vercel AI SDK tutorial</a>.
+    </p>
 
     <div class="api-section">
         <h2>API Demo</h2>
         <input id="promptInput" type="text" placeholder="Enter prompt" style="width: 100%;height: 40px;" />
         <p>Click the button below to call the OpenAI compatible LLM from our API endpoint:</p>
         <button onclick="callLlm()">Call LLM</button>
-        <button onclick="checkHealth()">Check Server Health</button>
+        <button onclick="streamTest()">Test streaming</button>
         <div id="response" class="hidden"></div>
         <div id="results" class="hidden"></div>
     </div>
@@ -42,10 +46,12 @@
             }
         }
 
-        async function checkHealth() {
+        async function streamTest() {
             try {
-                showResults('Checking server health...');
-                const response = await fetch('/api/health');
+                const responseDiv = document.getElementById('response');
+                responseDiv.classList.add('hidden');
+                const prompt = document.getElementById('promptInput').value;
+                const response = await fetch(`/api/streamtest?prompt=${encodeURIComponent(prompt)}`);
                 const data = await response.json();
                 showResults(JSON.stringify(data, null, 2));
             } catch (error) {

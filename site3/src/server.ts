@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 import express from 'express';
 import path from 'path';
-import { generateText } from 'ai';
+import { generateText, streamText } from 'ai';
 import { getLanguageModel } from './aimodel';
 
 // Load environment variables from .env file
@@ -53,12 +53,41 @@ app.get('/', (req, res) => {
 });
 
 // Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'OK',
-    timestamp: new Date().toISOString(),
-    statusMessage: 'Server is running'
-  });
+app.get('/api/streamtest', async (req, res) => {
+  try {
+    // Test code for streaming response (not used in main code)
+    let prompt = (req.query.prompt || 'Greet the user') as string;
+    let fullText = "";
+
+    const { textStream } = streamText({
+      model,
+      prompt,
+      system: 'You are a helpful assistant who gives short and friendly answers, always 30 words or less.',
+      temperature: 0.5
+    });
+
+    process.stdout.write ("Streaming response: ");
+    for await (const chunk of textStream) {
+      process.stdout.write(chunk);
+      fullText += chunk;
+    }
+    process.stdout.write ("\n");
+
+    res.json({
+      status: 'OK',
+      timestamp: new Date().toISOString(),
+      statusMessage: `LLM returned ${fullText.length} characters:<br /> ${fullText}`
+    });
+
+  } catch (error: any) {
+
+    console.error('Health check error:', error);
+    res.status(500).json({
+      status: 'ERROR',
+      statusMessage: 'Server encountered an error',
+      error: error.message
+    });
+  }
 });
 
 // Start the server
