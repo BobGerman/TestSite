@@ -27,12 +27,34 @@ app.get('/', (req, res) => {
 
 // /api/message - one-shot LLM call
 const model = getLanguageModel();
-app.get('/api/message', async (req, res) => {
+app.get([
+  '/api/message',
+  '/api/streamtest'
+], async (req, res) => {
 
   try {
 
     let prompt = (req.query.prompt || DEFAULT_USER_PROMPT) as string;
-    const text = await getLLMCompletion(prompt);
+    let method = req.path.substring('/api/'.length); // Extract method from path
+
+    let text = "";
+    switch (method) {
+      case 'message': {
+        text = await getLLMCompletion(prompt);
+        break;
+      }
+      case 'streamtest': {
+        text = await getStreamedCompletion(prompt);
+        break;
+      }
+      default: {
+        res.status(404).json({
+          success: false,
+          statusMessage: 'Unknown API endpoint'
+        });
+      }
+    }
+    
     res.json({
       success: true,
       statusMessage: 'LLM response retrieved successfully',
@@ -49,13 +71,13 @@ app.get('/api/message', async (req, res) => {
 });
 
 async function getLLMCompletion(prompt: string): Promise<string> {
-      const { text } = await generateText({
-      model,
-      prompt,
-      system: DEFAULT_SYSTEM_PROMPT,
-      temperature: DEFAULT_TEMPERATURE
-    });
-    return text;
+  const { text } = await generateText({
+    model,
+    prompt,
+    system: DEFAULT_SYSTEM_PROMPT,
+    temperature: DEFAULT_TEMPERATURE
+  });
+  return text;
 }
 
 // /api/streamtest - test LLM streaming
@@ -83,22 +105,22 @@ app.get('/api/streamtest', async (req, res) => {
 });
 
 async function getStreamedCompletion(prompt: string): Promise<string> {
-      let fullText = "";
+  let fullText = "";
 
-    const { textStream } = streamText({
-      model,
-      prompt,
-      system: DEFAULT_SYSTEM_PROMPT,
-      temperature: 0.5
-    });
+  const { textStream } = streamText({
+    model,
+    prompt,
+    system: DEFAULT_SYSTEM_PROMPT,
+    temperature: 0.5
+  });
 
-    process.stdout.write ("Streaming response: ");
-    for await (const chunk of textStream) {
-      process.stdout.write(chunk);
-      fullText += chunk;
-    }
-    process.stdout.write ("\n");
-    return fullText;
+  process.stdout.write("Streaming response: ");
+  for await (const chunk of textStream) {
+    process.stdout.write(chunk);
+    fullText += chunk;
+  }
+  process.stdout.write("\n");
+  return fullText;
 }
 
 // Start the server
