@@ -4,7 +4,6 @@ import path from 'path';
 import { generateText, streamText } from 'ai';
 import { getLanguageModel } from './aimodel';
 
-
 const DEFAULT_USER_PROMPT = 'Greet the user';
 const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and friendly answers, always 100 words or less.';
 
@@ -20,8 +19,12 @@ app.use(express.static('public'));
 // Parse JSON requests
 app.use(express.json());
 
+// Serve the main web page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
 
-// Call the LLM
+// /api/message - one-shot LLM call
 const model = getLanguageModel();
 app.get('/api/message', async (req, res) => {
 
@@ -50,13 +53,7 @@ app.get('/api/message', async (req, res) => {
   }
 });
 
-
-// Serve the main web page
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
-
-// Health check endpoint
+// /api/streamtest - test LLM streaming
 app.get('/api/streamtest', async (req, res) => {
   try {
     // Test code for streaming response (not used in main code)
@@ -98,23 +95,5 @@ app.get('/api/streamtest', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-// Utility functions
-
-// Function to extract the final message from an OpenAI compatible response
-// Example input:
-//   '"<|channel|>analysis<|message|>We need to greet.<|end|><|start|>assistant<|channel|>final<|message|>Hello! How can I assist you today?'
-// Exanoke result:
-//   'Hello! How can I assist you today?'
-function extractMessage(input: string): string {
-  const FINAL_TEXT_MARKER = 'final<|message|>';
-  const startIndex = input.indexOf(FINAL_TEXT_MARKER);
-
-  if (startIndex === -1) {
-    return 'No message found';
-  }
-
-  return input.substring(startIndex + FINAL_TEXT_MARKER.length).trim();
-}
 
 export default app;
