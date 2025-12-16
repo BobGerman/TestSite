@@ -11,7 +11,7 @@
 <body>
     <h1>Vercel tutorial project</h1>
 
-    <p>This is a test project from the 
+    <p>This is a test project from the
         <a href="https://www.aihero.dev/vercel-ai-sdk-tutorial" target="_blank">Vercel AI SDK tutorial</a>.
     </p>
 
@@ -32,15 +32,10 @@
                 const prompt = document.getElementById('promptInput').value;
                 const response = await fetch(`/api/message?prompt=${encodeURIComponent(prompt)}`);
                 const data = await response.json();
-                showResults(JSON.stringify(data, null, 2));
 
-                const responseDiv = document.getElementById('response');
-                if (data.completion) {
-                    responseDiv.textContent = data.completion;
-                    responseDiv.classList.remove('hidden');
-                } else {
-                    responseDiv.classList.add('hidden');
-                }
+                showResults(JSON.stringify(data, null, 2));
+                showResponse(data.completion);
+
             } catch (error) {
                 showResults('Error: ' + error.message);
             }
@@ -48,12 +43,13 @@
 
         async function streamTest() {
             try {
-                const responseDiv = document.getElementById('response');
-                responseDiv.classList.add('hidden');
                 const prompt = document.getElementById('promptInput').value;
                 const response = await fetch(`/api/streamtest?prompt=${encodeURIComponent(prompt)}`);
                 const data = await response.json();
+
                 showResults(JSON.stringify(data, null, 2));
+                showResponse(data.completion);
+
             } catch (error) {
                 showResults('Error: ' + error.message);
             }
@@ -63,6 +59,16 @@
             const resultsDiv = document.getElementById('results');
             resultsDiv.textContent = content;
             resultsDiv.classList.remove('hidden');
+        }
+
+        function showResponse(text) {
+            const responseDiv = document.getElementById('response');
+            if (text) {
+                responseDiv.textContent = text;
+                responseDiv.classList.remove('hidden');
+            } else {
+                responseDiv.classList.add('hidden');
+            }
         }
     </script>
 </body>

@@ -4,6 +4,10 @@ import path from 'path';
 import { generateText, streamText } from 'ai';
 import { getLanguageModel } from './aimodel';
 
+
+const DEFAULT_USER_PROMPT = 'Greet the user';
+const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and friendly answers, always 100 words or less.';
+
 // Load environment variables from .env file
 dotenv.config();
 
@@ -23,7 +27,7 @@ app.get('/api/message', async (req, res) => {
 
   try {
 
-    let prompt = (req.query.prompt || 'Greet the user') as string;
+    let prompt = (req.query.prompt || DEFAULT_USER_PROMPT) as string;
 
     const { text } = await generateText({
       model,
@@ -56,13 +60,13 @@ app.get('/', (req, res) => {
 app.get('/api/streamtest', async (req, res) => {
   try {
     // Test code for streaming response (not used in main code)
-    let prompt = (req.query.prompt || 'Greet the user') as string;
+    let prompt = (req.query.prompt || DEFAULT_USER_PROMPT) as string;
     let fullText = "";
 
     const { textStream } = streamText({
       model,
       prompt,
-      system: 'You are a helpful assistant who gives short and friendly answers, always 30 words or less.',
+      system: DEFAULT_SYSTEM_PROMPT,
       temperature: 0.5
     });
 
@@ -81,7 +85,7 @@ app.get('/api/streamtest', async (req, res) => {
 
   } catch (error: any) {
 
-    console.error('Health check error:', error);
+    console.error('Stream test error:', error);
     res.status(500).json({
       status: 'ERROR',
       statusMessage: 'Server encountered an error',
