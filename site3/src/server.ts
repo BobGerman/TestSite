@@ -36,14 +36,14 @@ app.get([
     let prompt = (req.query.prompt || DEFAULT_USER_PROMPT) as string;
     let method = req.path.substring('/api/'.length); // Extract method from path
 
-    let text = "";
+    let response;
     switch (method) {
       case 'message': {
-        text = await getLLMCompletion(prompt);
+        response = await getLLMCompletion({ userPrompt: prompt });
         break;
       }
       case 'streamtest': {
-        text = await getStreamedCompletion(prompt);
+        response = await getStreamedCompletion({ userPrompt: prompt });
         break;
       }
       default: {
@@ -55,11 +55,14 @@ app.get([
     }
 
     res.json({
-      success: true,
-      statusMessage: 'LLM response retrieved successfully',
-      completion: text
+      success: response?.success,
+      statusMessage: response?.statusMessage,
+      detailMessage: response?.detailMessage,
+      completion: response?.completion
     });
+
   } catch (error: any) {
+
     console.error('Error calling LLM:', error);
     res.status(500).json({
       success: false,
