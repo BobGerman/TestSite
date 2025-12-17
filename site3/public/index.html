@@ -6,12 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI SDK test program</title>
     <link rel="stylesheet" href="styles.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/zero-md@3?register"></script>
 </head>
 
 <body>
     <h1>AI SDK Test Program</h1>
 
-    <div id="response" class="hidden"></div>
+    <zero-md>
+        <script type="text/markdown" id="response"></script>
+    </zero-md>
+
     <div class="test-form">
         <input id="promptInput" type="text" placeholder="Enter prompt" style="width: 100%;height: 40px;" />
         <button onclick="callLlm('oneshot')">One-shot</button><br />
@@ -23,7 +27,7 @@
         <a href="https://www.aihero.dev/vercel-ai-sdk-tutorial" target="_blank">Vercel AI SDK tutorial</a>.
     </p>
 
-<script>
+    <script>
         async function callLlm(method) {
             try {
                 showResults('Loading...');

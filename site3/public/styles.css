@@ -47,15 +47,11 @@ button:hover {
     font-family: monospace;
 }
 
-#response {
-    background-color: black;
-    color: white;
-    font-size: large;
-    padding: 15px;
+zero-md {
+    display: block;
+    border: 1px solid black;
+    padding: 10px;
     border-radius: 5px;
-    margin-top: 10px;
-    white-space: pre-wrap;
-    font-family: monospace;
 }
 
 .hidden {
