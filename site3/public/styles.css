@@ -11,19 +11,24 @@ h1 {
     text-align: center;
 }
 
-.api-section {
+p {
+    font-size: 9px;
+    color: #c9c9c9;
+
+}
+.test-form {
     background-color: #f4f4f4;
     padding: 20px;
     border-radius: 5px;
-    margin: 20px 0;
 }
 
 button {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 6pt 12pt;
+    margin: 3pt 0 0 0;
+    border-radius: 2pt;
     cursor: pointer;
     font-size: 16px;
 }
@@ -33,10 +38,11 @@ button:hover {
 }
 
 #results {
-    background-color: #e9ecef;
-    padding: 15px;
-    border-radius: 5px;
-    margin-top: 10px;
+    background-color: white;
+    padding: 5pt;
+    border: 1px solid black;
+    border-radius: 2pt;
+    margin-top: 6pt;
     white-space: pre-wrap;
     font-family: monospace;
 }

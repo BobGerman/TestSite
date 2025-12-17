@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 
 // /api/message - one-shot LLM call
 app.get([
-  '/api/message',
+  '/api/oneshot',
   '/api/streamtest'
 ], async (req, res) => {
 
@@ -38,7 +38,7 @@ app.get([
 
     let response;
     switch (method) {
-      case 'message': {
+      case 'oneshot': {
         response = await getLLMCompletion({ userPrompt: prompt });
         break;
       }
