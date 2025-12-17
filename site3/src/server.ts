@@ -1,12 +1,11 @@
 import * as dotenv from 'dotenv';
 import express from 'express';
 import path from 'path';
-import { getLLMCompletion } from './apiMethods/oneshot';
-import { getStreamedCompletion } from './apiMethods/streamtest';
+import { getLLMCompletion as getOneshotCompletion } from './apiMethods/oneshot';
+import { getLLMCompletion as getStreamtestCompletion } from './apiMethods/streamtest';
+import { getLLMCompletion as getChatCompletion } from './apiMethods/chat';
 
 const DEFAULT_USER_PROMPT = 'Greet the user';
-const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and friendly answers, always 100 words or less.';
-const DEFAULT_TEMPERATURE = 0.5;
 
 // Load environment variables from .env file
 dotenv.config();
@@ -28,7 +27,8 @@ app.get('/', (req, res) => {
 // /api/message - one-shot LLM call
 app.get([
   '/api/oneshot',
-  '/api/streamtest'
+  '/api/streamtest',
+  '/api/chat'
 ], async (req, res) => {
 
   try {
@@ -39,11 +39,15 @@ app.get([
     let response;
     switch (method) {
       case 'oneshot': {
-        response = await getLLMCompletion({ userPrompt: prompt });
+        response = await getOneshotCompletion({ userPrompt: prompt });
         break;
       }
       case 'streamtest': {
-        response = await getStreamedCompletion({ userPrompt: prompt });
+        response = await getStreamtestCompletion({ userPrompt: prompt });
+        break;
+      }
+      case 'chat': {
+        response = await getChatCompletion({ userPrompt: prompt });
         break;
       }
       default: {

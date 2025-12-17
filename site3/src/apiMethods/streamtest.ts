@@ -5,7 +5,7 @@ import { MethodArgs, MethodResponse } from './method';
 const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and friendly answers, always 100 words or less.';
 const DEFAULT_TEMPERATURE = 0.5;
 
-export async function getStreamedCompletion(args: MethodArgs):
+export async function getLLMCompletion(args: MethodArgs):
  Promise<MethodResponse> {
   let fullText = "";
   let chunkCount = 0;
