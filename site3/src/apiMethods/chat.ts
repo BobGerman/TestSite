@@ -1,23 +1,50 @@
 // NOTE: This function uses in-memory state, so is only suitable for testing and prototyping by a single user
 import model from '../aimodel';
-import { generateText } from 'ai';
+import { generateText, ModelMessage, TextPart } from 'ai';
 import { MethodArgs, MethodResponse } from './method';
+import { get } from 'http';
 
 const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and friendly answers, always 100 words or less.';
 const DEFAULT_TEMPERATURE = 0.5;
 
+let messages: ModelMessage [] = [
+    { role: 'system', content: DEFAULT_SYSTEM_PROMPT }
+];
+
 export async function getLLMCompletion(args: MethodArgs):
-  Promise<MethodResponse> {
-  const { text } = await generateText({
-    model,
-    prompt: args.userPrompt,
-    system: args.systemPrompt || DEFAULT_SYSTEM_PROMPT,
-    temperature: DEFAULT_TEMPERATURE
-  });
-  return {
-    success: true,
-    statusMessage: 'LLM completion successful',
-    completion: text
-  };
+    Promise<MethodResponse> {
+
+    // Append user message to conversation history
+    messages.push({ role: 'user', content: args.userPrompt });
+
+    // Construct the full prompt with system prompt and conversation history
+    const { response } = await generateText({
+        model,
+        messages,
+        temperature: DEFAULT_TEMPERATURE
+    });
+
+    const assistantMessage = response.messages[0];
+    const textPart = assistantMessage.content[0] as TextPart;
+    const assistantMessageText = textPart.text;
+    
+    messages.push({ role: 'assistant', content: assistantMessageText });
+
+    return {
+        success: true,
+        statusMessage: 'LLM completion successful',
+        completion: assistantMessageText,
+        detailMessage: `Context: ${formatMessages(messages)}`
+    };
+}
+
+function formatMessages(messages: ModelMessage[]): string {
+    let result = '';
+    for (const message of messages) {
+        const s = message.content.length < 10 ? message.content :
+            message.content.slice(0,10) + '...';
+        result += `[${message.role.toUpperCase()}]: ${s}`;
+    }
+    return result;  
 }
 
