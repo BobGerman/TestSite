@@ -1,23 +1,10 @@
 import model from '../aimodel';
-import { generateObject, jsonSchema } from 'ai';
+import { generateObject } from 'ai';
 import { MethodArgs, MethodResponse } from './method';
 
-// import { z } from "zod";
+import { schema } from './recipe-schema';
 
-// const schema = z.object({
-//   recipe: z.object({
-//     name: z.string(),
-//     ingredients: z.array(
-//       z.object({
-//         name: z.string(),
-//         amount: z.string(),
-//       }),
-//     ),
-//     steps: z.array(z.string()),
-//   }),
-// });
-
-import schema from './recipe-schema.json';
+// import schema from './recipe-schema.json';
 
 const DEFAULT_SYSTEM_PROMPT = 'You are brilliant chef who has mastered the culinary arts.';
 const DEFAULT_USER_PROMPT = 'Lasagne';
@@ -27,10 +14,9 @@ export async function getLLMCompletion(args: MethodArgs):
   Promise<MethodResponse> {
   try {
 
-    const schamaProp = jsonSchema(schema);
     const { object } = await generateObject({
       model,
-      schema: schamaProp,
+      schema,
       prompt: args.userPrompt || DEFAULT_USER_PROMPT,
       system: args.systemPrompt || DEFAULT_SYSTEM_PROMPT,
       temperature: DEFAULT_TEMPERATURE
