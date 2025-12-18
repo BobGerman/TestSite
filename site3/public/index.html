@@ -73,7 +73,11 @@
         function showResults(content) {
             const resultsDiv = document.getElementById('results');
             resultsDiv.textContent = content;
-            resultsDiv.classList.remove('hidden');
+            if (!content) {
+                resultsDiv.classList.add('hidden');
+            } else {
+                resultsDiv.classList.remove('hidden');
+            }
         }
 
         function showResponse(text) {

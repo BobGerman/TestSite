@@ -8,7 +8,6 @@
     "start": "node dist/server.js",
     "dev": "tsc && node dist/server.js",
     "debug": "tsc && node --inspect dist/server.js",
-    "debug:ts": "ts-node --inspect src/server.ts",
     "clean": "rm -rf dist"
   },
   "dependencies": {
