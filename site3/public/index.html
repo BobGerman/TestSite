@@ -12,17 +12,21 @@
 <body>
     <h1>AI SDK Test Program</h1>
 
+    <div class="test-form">
+        <label for="userPromptInput">User Prompt:</label>
+        <input id="userPromptInput" type="text" placeholder="Enter user prompt" style="width: 100%;height: 40px;" />
+        <br />
+        <label for="systemPromptInput">System Prompt:</label>
+        <input id="systemPromptInput" type="text" placeholder="Enter system prompt" style="width: 100%;height: 40px;" />
+        <br />
+        <button onclick="callLlm('oneshot')">One-shot</button>
+        <button onclick="callLlm('streamtest')">Text streaming</button>
+        <button onclick="callLlm('chat')">Chat completion</button>
+        <button onclick="callLlm('recipe')">Recipe generation</button>
+    </div>
     <zero-md>
         <script type="text/markdown" id="response"></script>
     </zero-md>
-
-    <div class="test-form">
-        <input id="promptInput" type="text" placeholder="Enter prompt" style="width: 100%;height: 40px;" />
-        <button onclick="callLlm('oneshot')">One-shot</button><br />
-        <button onclick="callLlm('streamtest')">Text streaming</button><br />
-        <button onclick="callLlm('chat')">Chat completion</button><br />
-        <button onclick="callLlm('recipe')">Recipe generation</button>
-    </div>
     <div id="results" class="hidden"></div>
     <p>This is a test project based on the
         <a href="https://www.aihero.dev/vercel-ai-sdk-tutorial" target="_blank">Vercel AI SDK tutorial</a>.
@@ -50,8 +54,11 @@
                         throw new Error('Unknown method: ' + method);
                 }
 
-                const prompt = document.getElementById('promptInput').value;
-                const response = await fetch(`${path}?prompt=${encodeURIComponent(prompt)}`);
+                const userPrompt = document.getElementById('userPromptInput').value;
+                const systemPrompt = document.getElementById('systemPromptInput').value;
+                const response = await fetch(
+                    `${path}?userPrompt=${encodeURIComponent(userPrompt)}&systemPrompt=${encodeURIComponent(systemPrompt)}`
+                );
                 const data = await response.json();
 
                 showResults(JSON.stringify(data, null, 2));
@@ -69,13 +76,8 @@
         }
 
         function showResponse(text) {
-            const responseDiv = document.getElementById('response');
-            if (text) {
-                responseDiv.textContent = text;
-                responseDiv.classList.remove('hidden');
-            } else {
-                responseDiv.classList.add('hidden');
-            }
+            const responseElement = document.getElementById('response');
+            responseElement.textContent = text;
         }
     </script>
 </body>

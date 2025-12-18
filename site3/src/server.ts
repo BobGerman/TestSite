@@ -33,25 +33,26 @@ app.get([
 
   try {
 
-    let prompt = (req.query.prompt) as string;
+    let userPrompt = (req.query.userPrompt) as string;
+    let systemPrompt = (req.query.systemPrompt) as string;
     let method = req.path.substring('/api/'.length); // Extract method from path
 
     let response;
     switch (method) {
       case 'oneshot': {
-        response = await getOneshotCompletion({ userPrompt: prompt });
+        response = await getOneshotCompletion({ userPrompt: userPrompt, systemPrompt: systemPrompt });
         break;
       }
       case 'streamtest': {
-        response = await getStreamtestCompletion({ userPrompt: prompt });
+        response = await getStreamtestCompletion({ userPrompt: userPrompt, systemPrompt: systemPrompt });
         break;
       }
       case 'chat': {
-        response = await getChatCompletion({ userPrompt: prompt });
+        response = await getChatCompletion({ userPrompt: userPrompt, systemPrompt: systemPrompt });
         break;
       }
       case 'recipe': {
-        response = await getRecipeCompletion({ userPrompt: prompt });
+        response = await getRecipeCompletion({ userPrompt: userPrompt, systemPrompt: systemPrompt });
         break;
       }
       default: {
