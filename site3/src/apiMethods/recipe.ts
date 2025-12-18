@@ -22,6 +22,8 @@ export async function getLLMCompletion(args: MethodArgs):
       temperature: DEFAULT_TEMPERATURE
     });
     return {
+      userPrompt: args.userPrompt || DEFAULT_USER_PROMPT,
+      systemPrompt: args.systemPrompt || DEFAULT_SYSTEM_PROMPT,
       success: true,
       statusMessage: 'LLM completion successful',
       completion: "Recipe generated successfully.",

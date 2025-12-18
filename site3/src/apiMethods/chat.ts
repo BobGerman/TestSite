@@ -8,7 +8,7 @@ const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and f
 const DEFAULT_USER_PROMPT = 'Greet the user in a friendly manner.';
 const DEFAULT_TEMPERATURE = 0.5;
 
-let messages: ModelMessage [] = [
+let messages: ModelMessage[] = [
     { role: 'system', content: DEFAULT_SYSTEM_PROMPT }
 ];
 
@@ -16,9 +16,10 @@ export async function getLLMCompletion(args: MethodArgs):
     Promise<MethodResponse> {
 
     // Append user message to conversation history
-    messages.push({ 
-        role: 'user', 
-        content: args.userPrompt || DEFAULT_USER_PROMPT });
+    messages.push({
+        role: 'user',
+        content: args.userPrompt || DEFAULT_USER_PROMPT
+    });
 
     // Construct the full prompt with system prompt and conversation history
     const { response } = await generateText({
@@ -30,10 +31,12 @@ export async function getLLMCompletion(args: MethodArgs):
     const assistantMessage = response.messages[0];
     const textPart = assistantMessage.content[0] as TextPart;
     const assistantMessageText = textPart.text;
-    
+
     messages.push({ role: 'assistant', content: assistantMessageText });
 
     return {
+        userPrompt: args.userPrompt || DEFAULT_USER_PROMPT,
+        systemPrompt: args.systemPrompt || DEFAULT_SYSTEM_PROMPT,
         success: true,
         statusMessage: 'LLM completion successful',
         completion: assistantMessageText,
@@ -46,9 +49,9 @@ function formatMessages(messages: ModelMessage[]): string {
     let result = '';
     for (const message of messages) {
         const s = message.content.length < 10 ? message.content :
-            message.content.slice(0,10) + '...';
+            message.content.slice(0, 10) + '...';
         result += `[${message.role.toUpperCase()}]: ${s}`;
     }
-    return result;  
+    return result;
 }
 

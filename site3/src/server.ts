@@ -35,7 +35,7 @@ app.get([
 
     let userPrompt = (req.query.userPrompt) as string;
     let systemPrompt = (req.query.systemPrompt) as string;
-    let method = req.path.substring('/api/'.length); // Extract method from path
+    let method = req.path.substring('/api/'.length);
 
     let response;
     switch (method) {

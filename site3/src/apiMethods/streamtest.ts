@@ -26,6 +26,8 @@ export async function getLLMCompletion(args: MethodArgs):
   }
   process.stdout.write("\n");
   return {
+    userPrompt: args.userPrompt || DEFAULT_USER_PROMPT,
+    systemPrompt: args.systemPrompt || DEFAULT_SYSTEM_PROMPT,
     success: true,
     statusMessage: 'Streamed LLM completion successful',
     detailMessage: `${fullText.length} characters received in ${chunkCount} chunks.`,

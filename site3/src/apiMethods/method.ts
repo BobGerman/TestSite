@@ -4,6 +4,8 @@ export interface MethodArgs {
 }
 
 export interface MethodResponse {
+    systemPrompt?: string;
+    userPrompt?: string;
     success: boolean;
     statusMessage: string;
     completion?: string;
