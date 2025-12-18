@@ -24,7 +24,7 @@
         <button onclick="callLlm('chat')">Chat completion</button>
         <button onclick="callLlm('recipe')">Recipe generation</button>
     </div>
-    <zero-md>
+    <zero-md class="hidden">
         <script type="text/markdown" id="response"></script>
     </zero-md>
     <div id="results" class="hidden"></div>
@@ -35,7 +35,8 @@
     <script>
         async function callLlm(method) {
             try {
-                showResults('Loading...');
+                showResults('');
+                showResponse('Thinking ... 🤔');
                 let path = "";
                 switch (method) {
                     case 'oneshot':
@@ -78,6 +79,8 @@
         function showResponse(text) {
             const responseElement = document.getElementById('response');
             responseElement.textContent = text;
+            const zeroMdElement = document.querySelector('zero-md');
+            zeroMdElement.classList.remove('hidden');
         }
     </script>
 </body>

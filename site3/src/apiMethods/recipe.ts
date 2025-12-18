@@ -26,7 +26,7 @@ export async function getLLMCompletion(args: MethodArgs):
       systemPrompt: args.systemPrompt || DEFAULT_SYSTEM_PROMPT,
       success: true,
       statusMessage: 'LLM completion successful',
-      completion: "Recipe generated successfully.",
+      completion: `Generated ${object.recipe.ingredients.length} ingredients and ${object.recipe.steps.length} steps.`,
       objectCompletion: object
     };
   } catch (error: any) {
