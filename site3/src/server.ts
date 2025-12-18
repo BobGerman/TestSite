@@ -4,6 +4,7 @@ import path from 'path';
 import { getLLMCompletion as getOneshotCompletion } from './apiMethods/oneshot';
 import { getLLMCompletion as getStreamtestCompletion } from './apiMethods/streamtest';
 import { getLLMCompletion as getChatCompletion } from './apiMethods/chat';
+import { getLLMCompletion as getRecipeCompletion } from './apiMethods/recipe';
 
 const DEFAULT_USER_PROMPT = 'Greet the user';
 
@@ -28,7 +29,8 @@ app.get('/', (req, res) => {
 app.get([
   '/api/oneshot',
   '/api/streamtest',
-  '/api/chat'
+  '/api/chat',
+  '/api/recipe'
 ], async (req, res) => {
 
   try {
@@ -48,6 +50,10 @@ app.get([
       }
       case 'chat': {
         response = await getChatCompletion({ userPrompt: prompt });
+        break;
+      }
+      case 'recipe': {
+        response = await getRecipeCompletion({ userPrompt: prompt });
         break;
       }
       default: {

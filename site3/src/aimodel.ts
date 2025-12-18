@@ -8,7 +8,8 @@ function getLanguageModel(): LanguageModel {
 
     const modelProvider = createOpenAICompatible({
         name: 'lmstudio',
-        baseURL: process.env.LLM_BASE_URL || 'http://localhost:1234/v1'
+        baseURL: process.env.LLM_BASE_URL || 'http://localhost:1234/v1',
+        supportsStructuredOutputs: true
     });
 
     const model = modelProvider(process.env.LLM_MODEL_ID || "");

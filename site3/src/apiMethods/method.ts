@@ -9,4 +9,5 @@ export interface MethodResponse {
     completion?: string;
     detailMessage?: string;
     messageHistory?: string[];
+    objectCompletion?: any;
 }
