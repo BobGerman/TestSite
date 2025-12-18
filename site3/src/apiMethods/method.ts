@@ -8,4 +8,5 @@ export interface MethodResponse {
     statusMessage: string;
     completion?: string;
     detailMessage?: string;
+    messageHistory?: string[];
 }

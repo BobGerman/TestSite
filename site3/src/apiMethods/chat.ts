@@ -34,7 +34,8 @@ export async function getLLMCompletion(args: MethodArgs):
         success: true,
         statusMessage: 'LLM completion successful',
         completion: assistantMessageText,
-        detailMessage: `Context: ${formatMessages(messages)}`
+        detailMessage: `${messages.length} messages in conversation history.`,
+        messageHistory: messages.map(m => `${m.role}: ${m.content}`)
     };
 }
 

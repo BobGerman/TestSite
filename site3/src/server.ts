@@ -58,12 +58,7 @@ app.get([
       }
     }
 
-    res.json({
-      success: response?.success,
-      statusMessage: response?.statusMessage,
-      detailMessage: response?.detailMessage,
-      completion: response?.completion
-    });
+    res.json(response);
 
   } catch (error: any) {
 

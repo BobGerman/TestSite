@@ -52,6 +52,7 @@ zero-md {
     border: 1px solid black;
     padding: 10px;
     border-radius: 5px;
+    margin-bottom: 6pt;
 }
 
 .hidden {
