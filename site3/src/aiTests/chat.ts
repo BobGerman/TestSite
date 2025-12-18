@@ -1,7 +1,7 @@
 // NOTE: This function uses in-memory state, so is only suitable for testing and prototyping by a single user
 import model from '../aimodel';
 import { generateText, ModelMessage, TextPart } from 'ai';
-import { TestArgs, TestResponse } from './interfaces';
+import { TestArgs, TestResponse } from './aiTest';
 
 const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and friendly answers, always 100 words or less.';
 const DEFAULT_USER_PROMPT = 'Greet the user in a friendly manner.';
@@ -30,7 +30,7 @@ export async function getLLMCompletion(args: TestArgs):
     const { response } = await generateText({
         model,
         messages,
-        temperature: DEFAULT_TEMPERATURE
+        temperature: args.temperature || DEFAULT_TEMPERATURE
     });
 
     const assistantMessage = response.messages[0];

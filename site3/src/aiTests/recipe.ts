@@ -1,6 +1,6 @@
 import model from '../aimodel';
 import { generateObject } from 'ai';
-import { TestArgs, TestResponse } from './interfaces';
+import { TestArgs, TestResponse } from './aiTest';
 
 import { schema } from './recipe-schema';
 
@@ -19,7 +19,7 @@ export async function getLLMCompletion(args: TestArgs):
       schema,
       prompt: args.userPrompt || DEFAULT_USER_PROMPT,
       system: args.systemPrompt || DEFAULT_SYSTEM_PROMPT,
-      temperature: DEFAULT_TEMPERATURE
+      temperature: args.temperature || DEFAULT_TEMPERATURE
     });
     return {
       userPrompt: args.userPrompt || DEFAULT_USER_PROMPT,

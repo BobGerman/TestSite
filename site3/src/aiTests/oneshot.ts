@@ -1,6 +1,6 @@
 import model from '../aimodel';
 import { generateText } from 'ai';
-import { TestArgs, TestResponse } from './interfaces';
+import { TestArgs, TestResponse } from './aiTest';
 
 const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and friendly answers, always 100 words or less.';
 const DEFAULT_USER_PROMPT = 'Find a creative way to say hello, world';
@@ -12,7 +12,7 @@ export async function getLLMCompletion(args: TestArgs):
     model,
     prompt: args.userPrompt || DEFAULT_USER_PROMPT,
     system: args.systemPrompt || DEFAULT_SYSTEM_PROMPT,
-    temperature: DEFAULT_TEMPERATURE
+    temperature: args.temperature || DEFAULT_TEMPERATURE
   });
   return {
     userPrompt: args.userPrompt || DEFAULT_USER_PROMPT,

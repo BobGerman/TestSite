@@ -1,6 +1,7 @@
 export interface TestArgs {
     userPrompt: string;
     systemPrompt?: string;
+    temperature?: number;
 }
 
 export interface TestResponse {

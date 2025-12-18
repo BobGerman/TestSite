@@ -19,6 +19,9 @@
         <label for="systemPromptInput">System Prompt:</label>
         <input id="systemPromptInput" type="text" />
         <br />
+        <label for="temperatureInput">Temperature:</label>
+        <input type="range" id="temperatureInput" min="0" max="1" step="0.01" value="0.5">
+        <br />
         <button onclick="callLlm('oneshot')">One-shot</button>
         <button onclick="callLlm('streamtest')">Text streaming</button>
         <button onclick="callLlm('chat')">Chat completion</button>
@@ -56,13 +59,18 @@
                 }
 
                 showRequestInProgress();
-                const userPrompt = document.getElementById('userPromptInput').value;
-                const systemPrompt = document.getElementById('systemPromptInput').value;
-                const response = await fetch(
-                    `${path}?userPrompt=${encodeURIComponent(userPrompt)}&systemPrompt=${encodeURIComponent(systemPrompt)}`
-                );
 
+                const userPrompt = 
+                    document.getElementById('userPromptInput').value;
+                const systemPrompt =
+                    document.getElementById('systemPromptInput').value;
+                const temperature = 
+                    document.getElementById('temperatureInput').value;
+                const response = await fetch(
+                    `${path}?userPrompt=${encodeURIComponent(userPrompt)}&systemPrompt=${encodeURIComponent(systemPrompt)}&temperature=${encodeURIComponent(temperature)}`
+                );
                 const data = await response.json();
+                
                 showResults (data);
 
             } catch (error) {
@@ -71,35 +79,35 @@
         }
 
         function showRequestInProgress() {
-            const responseElement = document.getElementById('response');
-            responseElement.textContent = 'Thinking ... 🤔';
-            const zeroMdElement = document.querySelector('zero-md');
-            zeroMdElement.classList.remove('hidden');
-
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.classList.add('hidden');
+            document.getElementById('response')
+                .textContent = 'Thinking ... 🤔';
+            document.querySelector('zero-md')
+                .classList.remove('hidden');
+            document.getElementById('results')
+                .classList.add('hidden');
         }
 
         function showResults(data) {
 
             // Show user prompt
-            const userPromptInputElement = document.getElementById('userPromptInput');
-            userPromptInputElement.value = data.userPrompt || '';
+            document.getElementById('userPromptInput')
+                .value = data.userPrompt || '';
 
             // Show system prompt
-            const systemPromptInputElement = document.getElementById('systemPromptInput');
-            systemPromptInputElement.value = data.systemPrompt || '';
+            document.getElementById('systemPromptInput')
+                .value = data.systemPrompt || '';
 
             // Show completion message
-            const responseElement = document.getElementById('response');
-            responseElement.textContent = data.completion || '';
-            const zeroMdElement = document.querySelector('zero-md');
-            zeroMdElement.classList.remove('hidden');
+            document.getElementById('response')
+                .textContent = data.completion || '';
+            document.querySelector('zero-md')
+                .classList.remove('hidden');
 
             // Show JSON results
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.textContent = JSON.stringify(data, null, 2);
-            resultsDiv.classList.remove('hidden');
+            document.getElementById('results')
+                .textContent = JSON.stringify(data, null, 2);
+            document.getElementById('results')
+                .classList.remove('hidden');
         }
 
         function clearPrompts() {
@@ -109,14 +117,13 @@
 
         function clearAll () {
             clearPrompts();
-            const responseElement = document.getElementById('response');
-            responseElement.textContent = '';
-            const zeroMdElement = document.querySelector('zero-md');
-            zeroMdElement.classList.add('hidden');
+            document.getElementById('temperatureInput').value = '0.5';
 
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.textContent = '';
-            resultsDiv.classList.add('hidden');
+            document.getElementById('response').textContent = '';
+            document.querySelector('zero-md').classList.add('hidden');
+
+            document.getElementById('results').textContent = '';
+            document.getElementById('results').classList.add('hidden');
         }
 
     </script>

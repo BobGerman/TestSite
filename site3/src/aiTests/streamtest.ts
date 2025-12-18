@@ -1,6 +1,6 @@
 import model from '../aimodel';
 import { streamText } from 'ai';
-import { TestArgs, TestResponse } from './interfaces';
+import { TestArgs, TestResponse } from './aiTest';
 
 const DEFAULT_SYSTEM_PROMPT = 'You speak in flowing words like a babbling brook.';
 const DEFAULT_USER_PROMPT = 'Let the user know that the stream test is sent to the console.';
@@ -15,7 +15,7 @@ export async function getLLMCompletion(args: TestArgs):
     model,
     prompt: args.userPrompt || DEFAULT_USER_PROMPT,
     system: args.systemPrompt || DEFAULT_SYSTEM_PROMPT,
-    temperature: DEFAULT_TEMPERATURE
+    temperature: args.temperature || DEFAULT_TEMPERATURE
   });
 
   process.stdout.write("Streaming response: ");
