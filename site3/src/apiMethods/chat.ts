@@ -8,12 +8,18 @@ const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and f
 const DEFAULT_USER_PROMPT = 'Greet the user in a friendly manner.';
 const DEFAULT_TEMPERATURE = 0.5;
 
-let messages: ModelMessage[] = [
-    { role: 'system', content: DEFAULT_SYSTEM_PROMPT }
-];
+let messages: ModelMessage[] = [];
 
 export async function getLLMCompletion(args: MethodArgs):
     Promise<MethodResponse> {
+
+    if (messages.length === 0 || 
+        args.userPrompt?.toLowerCase() === 'new chat') {
+        messages = [{
+            role: 'system',
+            content: args.systemPrompt || DEFAULT_SYSTEM_PROMPT
+        }];
+    }   
 
     // Append user message to conversation history
     messages.push({

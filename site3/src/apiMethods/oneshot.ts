@@ -3,7 +3,7 @@ import { generateText } from 'ai';
 import { MethodArgs, MethodResponse } from './method';
 
 const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and friendly answers, always 100 words or less.';
-const DEFAULT_USER_PROMPT = 'Greet the user in a friendly manner.';
+const DEFAULT_USER_PROMPT = 'Find a creative way to say hello, world';
 const DEFAULT_TEMPERATURE = 0.5;
 
 export async function getLLMCompletion(args: MethodArgs):
