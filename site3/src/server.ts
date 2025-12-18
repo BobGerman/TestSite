@@ -6,8 +6,6 @@ import { getLLMCompletion as getStreamtestCompletion } from './apiMethods/stream
 import { getLLMCompletion as getChatCompletion } from './apiMethods/chat';
 import { getLLMCompletion as getRecipeCompletion } from './apiMethods/recipe';
 
-const DEFAULT_USER_PROMPT = 'Greet the user';
-
 // Load environment variables from .env file
 dotenv.config();
 
@@ -35,7 +33,7 @@ app.get([
 
   try {
 
-    let prompt = (req.query.prompt || DEFAULT_USER_PROMPT) as string;
+    let prompt = (req.query.prompt) as string;
     let method = req.path.substring('/api/'.length); // Extract method from path
 
     let response;

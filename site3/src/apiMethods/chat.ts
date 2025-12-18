@@ -5,6 +5,7 @@ import { MethodArgs, MethodResponse } from './method';
 import { get } from 'http';
 
 const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and friendly answers, always 100 words or less.';
+const DEFAULT_USER_PROMPT = 'Greet the user in a friendly manner.';
 const DEFAULT_TEMPERATURE = 0.5;
 
 let messages: ModelMessage [] = [
@@ -15,7 +16,9 @@ export async function getLLMCompletion(args: MethodArgs):
     Promise<MethodResponse> {
 
     // Append user message to conversation history
-    messages.push({ role: 'user', content: args.userPrompt });
+    messages.push({ 
+        role: 'user', 
+        content: args.userPrompt || DEFAULT_USER_PROMPT });
 
     // Construct the full prompt with system prompt and conversation history
     const { response } = await generateText({

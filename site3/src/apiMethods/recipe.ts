@@ -20,6 +20,7 @@ import { MethodArgs, MethodResponse } from './method';
 import schema from './recipe-schema.json';
 
 const DEFAULT_SYSTEM_PROMPT = 'You are brilliant chef who has mastered the culinary arts.';
+const DEFAULT_USER_PROMPT = 'Lasagne';
 const DEFAULT_TEMPERATURE = 0.5;
 
 export async function getLLMCompletion(args: MethodArgs):
@@ -30,7 +31,7 @@ export async function getLLMCompletion(args: MethodArgs):
     const { object } = await generateObject({
       model,
       schema: schamaProp,
-      prompt: args.userPrompt,
+      prompt: args.userPrompt || DEFAULT_USER_PROMPT,
       system: args.systemPrompt || DEFAULT_SYSTEM_PROMPT,
       temperature: DEFAULT_TEMPERATURE
     });
