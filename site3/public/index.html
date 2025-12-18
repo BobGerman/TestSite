@@ -22,7 +22,9 @@
         <button onclick="callLlm('oneshot')">One-shot</button>
         <button onclick="callLlm('streamtest')">Text streaming</button>
         <button onclick="callLlm('chat')">Chat completion</button>
-        <button onclick="callLlm('recipe')">Recipe generation</button>
+        <button onclick="callLlm('recipe')">Recipe generation</button><br />
+        <button onclick="clearPrompts()" class="special">Clear Prompts</button>
+        <button onclick="clearAll()" class="special">Clear All</button>
     </div>
     <zero-md class="hidden">
         <script type="text/markdown" id="response"></script>
@@ -98,6 +100,23 @@
             const resultsDiv = document.getElementById('results');
             resultsDiv.textContent = JSON.stringify(data, null, 2);
             resultsDiv.classList.remove('hidden');
+        }
+
+        function clearPrompts() {
+            document.getElementById('userPromptInput').value = '';
+            document.getElementById('systemPromptInput').value = '';
+        }
+
+        function clearAll () {
+            clearPrompts();
+            const responseElement = document.getElementById('response');
+            responseElement.textContent = '';
+            const zeroMdElement = document.querySelector('zero-md');
+            zeroMdElement.classList.add('hidden');
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.textContent = '';
+            resultsDiv.classList.add('hidden');
         }
 
     </script>
