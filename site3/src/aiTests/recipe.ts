@@ -1,6 +1,6 @@
 import model from '../aimodel';
 import { generateObject } from 'ai';
-import { MethodArgs, MethodResponse } from './method';
+import { TestArgs, TestResponse } from './interfaces';
 
 import { schema } from './recipe-schema';
 
@@ -10,8 +10,8 @@ const DEFAULT_SYSTEM_PROMPT = 'You are brilliant chef who has mastered the culin
 const DEFAULT_USER_PROMPT = 'Lasagne';
 const DEFAULT_TEMPERATURE = 0.5;
 
-export async function getLLMCompletion(args: MethodArgs):
-  Promise<MethodResponse> {
+export async function getLLMCompletion(args: TestArgs):
+  Promise<TestResponse> {
   try {
 
     const { object } = await generateObject({

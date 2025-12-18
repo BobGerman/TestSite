@@ -1,9 +1,9 @@
-export interface MethodArgs {
+export interface TestArgs {
     userPrompt: string;
     systemPrompt?: string;
 }
 
-export interface MethodResponse {
+export interface TestResponse {
     systemPrompt?: string;
     userPrompt?: string;
     success: boolean;

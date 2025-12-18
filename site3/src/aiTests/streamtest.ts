@@ -1,13 +1,13 @@
 import model from '../aimodel';
 import { streamText } from 'ai';
-import { MethodArgs, MethodResponse } from './method';
+import { TestArgs, TestResponse } from './interfaces';
 
 const DEFAULT_SYSTEM_PROMPT = 'You speak in flowing words like a babbling brook.';
 const DEFAULT_USER_PROMPT = 'Let the user know that the stream test is sent to the console.';
 const DEFAULT_TEMPERATURE = 0.5;
 
-export async function getLLMCompletion(args: MethodArgs):
- Promise<MethodResponse> {
+export async function getLLMCompletion(args: TestArgs):
+ Promise<TestResponse> {
   let fullText = "";
   let chunkCount = 0;
 

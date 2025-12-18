@@ -1,13 +1,13 @@
 import model from '../aimodel';
 import { generateText } from 'ai';
-import { MethodArgs, MethodResponse } from './method';
+import { TestArgs, TestResponse } from './interfaces';
 
 const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and friendly answers, always 100 words or less.';
 const DEFAULT_USER_PROMPT = 'Find a creative way to say hello, world';
 const DEFAULT_TEMPERATURE = 0.5;
 
-export async function getLLMCompletion(args: MethodArgs):
-  Promise<MethodResponse> {
+export async function getLLMCompletion(args: TestArgs):
+  Promise<TestResponse> {
   const { text } = await generateText({
     model,
     prompt: args.userPrompt || DEFAULT_USER_PROMPT,

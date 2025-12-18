@@ -14,10 +14,10 @@
 
     <div class="test-form">
         <label for="userPromptInput">User Prompt:</label>
-        <input id="userPromptInput" type="text" placeholder="Enter user prompt" style="width: 100%;height: 40px;" />
+        <input id="userPromptInput" type="text" />
         <br />
         <label for="systemPromptInput">System Prompt:</label>
-        <input id="systemPromptInput" type="text" placeholder="Enter system prompt" style="width: 100%;height: 40px;" />
+        <input id="systemPromptInput" type="text" />
         <br />
         <button onclick="callLlm('oneshot')">One-shot</button>
         <button onclick="callLlm('streamtest')">Text streaming</button>
@@ -35,8 +35,6 @@
     <script>
         async function callLlm(method) {
             try {
-                showResults('');
-                showResponse('Thinking ... 🤔');
                 let path = "";
                 switch (method) {
                     case 'oneshot':
@@ -55,37 +53,53 @@
                         throw new Error('Unknown method: ' + method);
                 }
 
+                showRequestInProgress();
                 const userPrompt = document.getElementById('userPromptInput').value;
                 const systemPrompt = document.getElementById('systemPromptInput').value;
                 const response = await fetch(
                     `${path}?userPrompt=${encodeURIComponent(userPrompt)}&systemPrompt=${encodeURIComponent(systemPrompt)}`
                 );
-                const data = await response.json();
 
-                showResults(JSON.stringify(data, null, 2));
-                showResponse(data.completion);
+                const data = await response.json();
+                showResults (data);
 
             } catch (error) {
                 showResults('Error: ' + error.message);
             }
         }
 
-        function showResults(content) {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.textContent = content;
-            if (!content) {
-                resultsDiv.classList.add('hidden');
-            } else {
-                resultsDiv.classList.remove('hidden');
-            }
-        }
-
-        function showResponse(text) {
+        function showRequestInProgress() {
             const responseElement = document.getElementById('response');
-            responseElement.textContent = text;
+            responseElement.textContent = 'Thinking ... 🤔';
             const zeroMdElement = document.querySelector('zero-md');
             zeroMdElement.classList.remove('hidden');
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.classList.add('hidden');
         }
+
+        function showResults(data) {
+
+            // Show user prompt
+            const userPromptInputElement = document.getElementById('userPromptInput');
+            userPromptInputElement.value = data.userPrompt || '';
+
+            // Show system prompt
+            const systemPromptInputElement = document.getElementById('systemPromptInput');
+            systemPromptInputElement.value = data.systemPrompt || '';
+
+            // Show completion message
+            const responseElement = document.getElementById('response');
+            responseElement.textContent = data.completion || '';
+            const zeroMdElement = document.querySelector('zero-md');
+            zeroMdElement.classList.remove('hidden');
+
+            // Show JSON results
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.textContent = JSON.stringify(data, null, 2);
+            resultsDiv.classList.remove('hidden');
+        }
+
     </script>
 </body>
 

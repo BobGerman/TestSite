@@ -1,8 +1,7 @@
 // NOTE: This function uses in-memory state, so is only suitable for testing and prototyping by a single user
 import model from '../aimodel';
 import { generateText, ModelMessage, TextPart } from 'ai';
-import { MethodArgs, MethodResponse } from './method';
-import { get } from 'http';
+import { TestArgs, TestResponse } from './interfaces';
 
 const DEFAULT_SYSTEM_PROMPT = 'You are a helpful assistant who gives short and friendly answers, always 100 words or less.';
 const DEFAULT_USER_PROMPT = 'Greet the user in a friendly manner.';
@@ -10,8 +9,8 @@ const DEFAULT_TEMPERATURE = 0.5;
 
 let messages: ModelMessage[] = [];
 
-export async function getLLMCompletion(args: MethodArgs):
-    Promise<MethodResponse> {
+export async function getLLMCompletion(args: TestArgs):
+    Promise<TestResponse> {
 
     if (messages.length === 0 || 
         args.userPrompt?.toLowerCase() === 'new chat') {

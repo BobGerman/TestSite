@@ -1,10 +1,10 @@
 import * as dotenv from 'dotenv';
 import express from 'express';
 import path from 'path';
-import { getLLMCompletion as getOneshotCompletion } from './apiMethods/oneshot';
-import { getLLMCompletion as getStreamtestCompletion } from './apiMethods/streamtest';
-import { getLLMCompletion as getChatCompletion } from './apiMethods/chat';
-import { getLLMCompletion as getRecipeCompletion } from './apiMethods/recipe';
+import { getLLMCompletion as getOneshotCompletion } from './aiTests/oneshot';
+import { getLLMCompletion as getStreamtestCompletion } from './aiTests/streamtest';
+import { getLLMCompletion as getChatCompletion } from './aiTests/chat';
+import { getLLMCompletion as getRecipeCompletion } from './aiTests/recipe';
 
 // Load environment variables from .env file
 dotenv.config();
