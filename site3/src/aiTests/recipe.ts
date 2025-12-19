@@ -6,8 +6,8 @@ import { schema } from './recipe-schema';
 
 // import schema from './recipe-schema.json';
 
-const DEFAULT_SYSTEM_PROMPT = 'You are brilliant chef who has mastered the culinary arts.';
-const DEFAULT_USER_PROMPT = 'Lasagne';
+const DEFAULT_SYSTEM_PROMPT = 'You are a skilled bartender at one of the top hotels in the world..';
+const DEFAULT_USER_PROMPT = 'Old Fashioned cocktail';
 const DEFAULT_TEMPERATURE = 0.5;
 
 export async function getLLMCompletion(args: TestArgs):
