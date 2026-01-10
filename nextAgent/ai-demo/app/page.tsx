@@ -38,7 +38,7 @@ export default function Home() {
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Enter your prompt..."
-          className="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-300 focus:border-transparent outline-none resize-none transition-all"
+          className="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-300 focus:border-transparent outline-none resize-none transition-all text-gray-800 bg-white"
           rows={4}
         />
         <button
