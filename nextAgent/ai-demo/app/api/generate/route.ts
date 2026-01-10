@@ -1,5 +1,6 @@
-import { generateText } from "ai"; 
+// import { generateText } from "ai"; 
 // import { google } from "@ai-sdk/google"; 
+import { streamText } from "ai";
 import model from "../aimodel";
 
 export async function POST(req: Request) { 
@@ -13,11 +14,20 @@ export async function POST(req: Request) {
 //   }); 
 
 
-  const { text } = await generateText({
+  // const { text } = await generateText({
+  //   model,
+  //   prompt,
+  //   maxOutputTokens: 200,
+  // });
+
+  // return Response.json({ text }); 
+
+    const result = streamText({ 
     model,
     prompt,
-    maxOutputTokens: 200,
-  });
+    maxOutputTokens: 200, 
+  }); 
 
-  return Response.json({ text }); 
+  return result.toUIMessageStreamResponse(); 
+
 } 

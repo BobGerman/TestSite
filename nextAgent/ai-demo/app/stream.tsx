@@ -1,0 +1,46 @@
+"use client";
+
+import { useCompletion } from "@ai-sdk/react";
+
+export default function Home() {
+  const { completion, input, handleInputChange, handleSubmit, isLoading } =
+    useCompletion({
+      api: "/api/generate",
+    });
+
+  return (
+    <div className="max-w-2xl mx-auto p-6 min-h-screen bg-gray-50">
+      <h1 className="text-3xl font-light text-gray-800 mb-8">
+        AI Text Generator
+      </h1>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <textarea
+          value={input}
+          onChange={handleInputChange}
+          placeholder="Enter your prompt..."
+          className="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-300 focus:border-transparent outline-none resize-none transition-all text-gray-800 bg-white"
+          rows={4}
+        />
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-medium"
+        >
+          {isLoading ? "Generating..." : "Generate"}
+        </button>
+      </form>
+
+      {completion && (
+        <div className="mt-8 p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+          <h3 className="text-lg font-medium text-gray-700 mb-4">
+            Generated Text:
+          </h3>
+          <div className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words">
+            {completion}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
