@@ -10,9 +10,9 @@ export default function Home() {
       </h1>
 
       <ul className="list-disc list-inside">
-        <li><a href="/tests/generateText">Generate Text</a></li>
-        <li><a href="/tests/streamText">Stream Text</a></li>
-        <li><a href="/tests/generateRecipe">Generate Recipe</a></li>
+        <li><a href="/pages/generateText">Generate Text</a></li>
+        <li><a href="/pages/streamText">Stream Text</a></li>
+        <li><a href="/pages/generateRecipe">Generate Recipe</a></li>
       </ul>
     </div>
   );
