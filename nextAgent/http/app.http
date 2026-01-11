@@ -1,6 +1,17 @@
-POST http://localhost:3000/api/generate HTTP/1.1
+## Generate Text
+POST http://localhost:3000/api/generateText HTTP/1.1
 content-type: application/json
 
 {
    "prompt": "Greet the user with a friendly message."
 }
+###
+
+## Generate Recipe
+POST http://localhost:3000/api/generateRecipe HTTP/1.1
+content-type: application/json
+
+{
+   "prompt": "How do I make a cherry pie?"
+}
+###
