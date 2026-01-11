@@ -27,7 +27,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <script type="module" src="https://cdn.jsdelivr.net/npm/zero-md@3?register"></script>
         {children}
       </body>
     </html>
