@@ -9,8 +9,8 @@ export default function Home() {
     });
 
   return (
-    <div className="max-w-2xl mx-auto p-6 min-h-screen bg-gray-50">
-      <h1 className="text-3xl font-light text-gray-800 mb-8">
+     <div className="max-w-2xl mx-auto p-6 min-h-screen bg-gray-50">
+     <h1 className="text-3xl font-light text-gray-800 mb-8">
         AI Text Generator
       </h1>
 
@@ -36,9 +36,14 @@ export default function Home() {
           <h3 className="text-lg font-medium text-gray-700 mb-4">
             Generated Text:
           </h3>
-          <div className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words">
-            {completion}
-          </div>
+          <zero-md className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words">
+            <template>
+              <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github.min.css" />
+            </template>
+            <script type="text/markdown">
+            {completion}  
+            </script>
+          </zero-md>
         </div>
       )}
     </div>
