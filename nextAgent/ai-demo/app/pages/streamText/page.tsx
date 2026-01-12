@@ -3,6 +3,7 @@
 import { useCompletion } from "@ai-sdk/react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
 
 export default function Home() {
   const { completion, input, handleInputChange, handleSubmit, isLoading } =
@@ -39,7 +40,7 @@ export default function Home() {
             Generated Text:
           </h3>
           <div className="prose prose-gray max-w-none text-gray-600 leading-relaxed">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
               {completion}
             </ReactMarkdown>
           </div>
