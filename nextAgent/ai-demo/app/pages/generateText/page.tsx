@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
+
 export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState("");
@@ -56,7 +60,9 @@ export default function Home() {
             Generated Text:
           </h3>
           <div className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words">
-            {result}
+            <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
+              {result}
+            </ReactMarkdown>
           </div>
         </div>
       )}
