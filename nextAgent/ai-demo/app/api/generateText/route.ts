@@ -6,9 +6,9 @@ export async function POST(req: Request) {
 
   const { text } = await generateText({
     model,
-    prompt,
-    system: systemPrompt,
-    temperature,
+    prompt: prompt || "Greet the user",
+    system: systemPrompt || "You are a friendly AI assistant",
+    temperature : temperature ?? 0.7,
     maxOutputTokens: 200,
   });
 
