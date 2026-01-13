@@ -21,20 +21,22 @@ export default function Home() {
 
       const responseObject: GeneratedRecipe = await response.json();
       const data = responseObject.object;
+      
       const formattedRecipe =
 `Recipe Name: ${data.name}
 Description: ${data.description}
 Ingredients:
-${data.ingredients.map(ing => `- ${ing.amount} of ${ing.name}`).join("\n")}
+${data.ingredients.map(ing => `- ${ing.amount ?? ' '}${ing.name}`).join("\n")}
 
 Steps:
 ${data.steps.map((step, index) => `${index + 1}. ${step}`).join("\n")}
 `;
 
       setResult(formattedRecipe);
+
       // Alternatively, to see the raw JSON object, uncomment the line below:
       //
-      // setResult(JSON.stringify(data.object, null, 2));
+      // setResult(JSON.stringify(data, null, 2));
 
     } catch (error) {
       console.error("Error:", error);
@@ -53,7 +55,7 @@ ${data.steps.map((step, index) => `${index + 1}. ${step}`).join("\n")}
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Enter your prompt..."
+          placeholder="What food or beverage would you like a recipe for?"
           className="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-300 focus:border-transparent outline-none resize-none transition-all text-gray-800 bg-white"
           rows={4}
         />
@@ -68,9 +70,6 @@ ${data.steps.map((step, index) => `${index + 1}. ${step}`).join("\n")}
 
       {result && (
         <div className="mt-8 p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-          <h3 className="text-lg font-medium text-gray-700 mb-4">
-            Generated Text:
-          </h3>
           <div className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words">
             {result}
           </div>
