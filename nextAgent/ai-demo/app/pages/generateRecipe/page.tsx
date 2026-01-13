@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { GeneratedRecipe } from "../../api/generateRecipe/IRecipe";
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
@@ -18,8 +19,22 @@ export default function Home() {
         body: JSON.stringify({ prompt }),
       });
 
-      const data = await response.json();
-      setResult(JSON.stringify(data.object, null, 2));
+      const responseObject: GeneratedRecipe = await response.json();
+      const data = responseObject.object;
+      const formattedRecipe =
+`Recipe Name: ${data.name}
+Description: ${data.description}
+Ingredients:
+${data.ingredients.map(ing => `- ${ing.amount} of ${ing.name}`).join("\n")}
+
+Steps:
+${data.steps.map((step, index) => `${index + 1}. ${step}`).join("\n")}
+`;
+
+      setResult(formattedRecipe);
+      // Alternatively, to see the raw JSON object, uncomment the line below:
+      //
+      // setResult(JSON.stringify(data.object, null, 2));
 
     } catch (error) {
       console.error("Error:", error);
