@@ -49,6 +49,7 @@ export default function Home() {
           rows={4}
         />
         <button
+          type="button"
           onClick={() => setIsExpanded(!isExpanded)}
           className="float-right px-6 py-1 bg-gray-100 text-black rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-small"
         >
