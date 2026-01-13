@@ -13,8 +13,28 @@ export default function Home() {
         Welcome to Bob&apos;s Agent Playground!
         This app uses Vercel AI Library and NextJS to showcase AI features used in agents
         using local AI models (though this could be changed fairly easily by modifying the
-        api/aimodel.ts file. 
+        api/aimodel.ts file.
       </p>
+
+      <p className="mb-4">
+        The app is based on these tutorials:
+      </p>
+      <ul className="list-disc list-inside mb-4">
+        <li className="mb-2">
+          <a href="https://www.aihero.dev/vercel-ai-sdk-tutorial" 
+             className="text-blue-600 hover:underline"
+             target="_blank">
+            AI Hero: Vercel AI SDK Tutorial
+          </a>
+        </li>
+        <li className="mb-2">
+          <a href="https://www.codecademy.com/article/guide-to-vercels-ai-sdk"
+             className="text-blue-600 hover:underline"
+             target="_blank">
+            Codecademy: What is Vercel AI SDK
+          </a>
+        </li>
+      </ul>
     </div>
   );
 }
