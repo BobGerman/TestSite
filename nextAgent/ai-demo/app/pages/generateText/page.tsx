@@ -40,21 +40,14 @@ export default function Home() {
         AI Text Generator
       </h1>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Enter your prompt..."
-          className="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-300 focus:border-transparent outline-none resize-none transition-all text-gray-800 bg-white"
+          className="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-300 focus:border-transparent outline-none resize-none transition-all text-gray-800 bg-white mb-0"
           rows={4}
         />
-        <button
-          type="button"
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="float-right px-6 py-1 bg-gray-100 text-black rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-small"
-        >
-          more settings
-        </button>
         <div
           className={`overflow-hidden transition-all duration-300 ${isExpanded ? "max-h-96" : "max-h-0"}`}
         >
@@ -84,6 +77,13 @@ export default function Home() {
           className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-medium"
         >
           {loading ? "Generating..." : "Generate"}
+        </button>
+        <button
+          type="button"
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="mx-2 px-6 py-3 bg-gray-100 text-black rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-small"
+        >
+          {isExpanded ? "Hide settings" : "Show settings"}
         </button>
       </form>
 
