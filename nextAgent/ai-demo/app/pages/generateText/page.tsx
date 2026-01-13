@@ -8,6 +8,7 @@ import remarkBreaks from "remark-breaks";
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
+  const [isExpanded, setIsExpanded] = useState(false);
   const [systemPrompt, setSystemPrompt] = useState("");
   const [temperature, setTemperature] = useState(0.7);
   const [result, setResult] = useState("");
@@ -47,25 +48,35 @@ export default function Home() {
           className="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-300 focus:border-transparent outline-none resize-none transition-all text-gray-800 bg-white"
           rows={4}
         />
-        <textarea
-          value={systemPrompt}
-          onChange={(e) => setSystemPrompt(e.target.value)}
-          placeholder="Enter system prompt..."
-          className="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-300 focus:border-transparent outline-none resize-none transition-all text-gray-800 bg-white"
-          rows={4}
-        />
-        <label className="block text-gray-700 font-medium">
-          Temperature: {temperature}
-        </label>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          className="w-full"
-          value={temperature}
-          onChange={(e) => setTemperature(parseFloat(e.target.value))}
-        />
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="float-right px-6 py-1 bg-gray-100 text-black rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-small"
+        >
+          more settings
+        </button>
+        <div
+          className={`overflow-hidden transition-all duration-300 ${isExpanded ? "max-h-96" : "max-h-0"}`}
+        >
+          <textarea
+            value={systemPrompt}
+            onChange={(e) => setSystemPrompt(e.target.value)}
+            placeholder="Enter system prompt..."
+            className="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-300 focus:border-transparent outline-none resize-none transition-all text-gray-800 bg-white"
+            rows={4}
+          />
+          <label className="block text-gray-700 font-medium">
+            Temperature: {temperature}
+          </label>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            className="w-full"
+            value={temperature}
+            onChange={(e) => setTemperature(parseFloat(e.target.value))}
+          />
+        </div>
         <button
           type="submit"
           disabled={loading}
