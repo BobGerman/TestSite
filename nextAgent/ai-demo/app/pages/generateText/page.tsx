@@ -8,6 +8,8 @@ import remarkBreaks from "remark-breaks";
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
+  const [systemPrompt, setSystemPrompt] = useState("");
+  const [temperature, setTemperature] = useState(0.7);
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +21,7 @@ export default function Home() {
       const response = await fetch("/api/generateText", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt, systemPrompt, temperature }),
       });
 
       const data = await response.json();
@@ -44,6 +46,25 @@ export default function Home() {
           placeholder="Enter your prompt..."
           className="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-300 focus:border-transparent outline-none resize-none transition-all text-gray-800 bg-white"
           rows={4}
+        />
+        <textarea
+          value={systemPrompt}
+          onChange={(e) => setSystemPrompt(e.target.value)}
+          placeholder="Enter system prompt..."
+          className="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-300 focus:border-transparent outline-none resize-none transition-all text-gray-800 bg-white"
+          rows={4}
+        />
+        <label className="block text-gray-700 font-medium">
+          Temperature: {temperature}
+        </label>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          className="w-full"
+          value={temperature}
+          onChange={(e) => setTemperature(parseFloat(e.target.value))}
         />
         <button
           type="submit"
