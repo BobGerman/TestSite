@@ -20,13 +20,14 @@ export default function Home() {
       });
 
       const responseObject: GeneratedRecipe = await response.json();
-      const data = responseObject.object;
+      const data = responseObject.output;
       
       const formattedRecipe =
 `Recipe Name: ${data.name}
 Description: ${data.description}
 Ingredients:
-${data.ingredients.map(ing => `- ${ing.amount ?? ' '}${ing.name}`).join("\n")}
+${data.ingredients.map(ing => 
+  `- ${ing.amount}${ing.amount ? ' ' : ''}${ing.name}`).join("\n")}
 
 Steps:
 ${data.steps.map((step, index) => `${index + 1}. ${step}`).join("\n")}

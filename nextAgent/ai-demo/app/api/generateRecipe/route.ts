@@ -1,5 +1,6 @@
+import { generateText, Output } from 'ai';
 import model from '../aimodel';
-import { generateObject } from 'ai';
+// import { generateObject } from 'ai';
 import { schema } from './RecipeSchema';
 
 export async function POST(req: Request) {
@@ -10,14 +11,15 @@ export async function POST(req: Request) {
   const DEFAULT_USER_PROMPT = 'Old Fashioned cocktail';
   const DEFAULT_TEMPERATURE = 0.5;
 
-  const { object } = await generateObject({
+  const { output } = await generateText({ // generateObject({
     model,
-    schema,
     prompt: prompt || DEFAULT_USER_PROMPT,
     system: DEFAULT_SYSTEM_PROMPT,
-    temperature: DEFAULT_TEMPERATURE
+    temperature: DEFAULT_TEMPERATURE,
+    output: Output.object({
+      schema
+    })
   });
 
-  return Response.json({ object });
-
+  return Response.json({ output });
 } 

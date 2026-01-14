@@ -1,5 +1,5 @@
 export interface GeneratedRecipe {
-    object: Recipe;
+    output: Recipe;
 }
 
 export interface Recipe {
