@@ -1,5 +1,5 @@
 import model from '../aimodel';
-import { generateObject } from 'ai';
+import { generateText, Output } from 'ai';
 import { TestArgs, TestResponse } from './aiTest';
 
 import { schema } from './recipe-schema';
@@ -14,9 +14,11 @@ export async function getLLMCompletion(args: TestArgs):
   Promise<TestResponse> {
   try {
 
-    const { object } = await generateObject({
+    const { output } = await generateText({
       model,
-      schema,
+      output: Output.object({
+        schema
+      }),
       prompt: args.userPrompt || DEFAULT_USER_PROMPT,
       system: args.systemPrompt || DEFAULT_SYSTEM_PROMPT,
       temperature: args.temperature || DEFAULT_TEMPERATURE
@@ -26,8 +28,8 @@ export async function getLLMCompletion(args: TestArgs):
       systemPrompt: args.systemPrompt || DEFAULT_SYSTEM_PROMPT,
       success: true,
       statusMessage: 'LLM completion successful',
-      completion: `Generated ${object.recipe.ingredients.length} ingredients and ${object.recipe.steps.length} steps.`,
-      objectCompletion: object
+      completion: `Generated ${output.recipe.ingredients.length} ingredients and ${output.recipe.steps.length} steps.`,
+      objectCompletion: output
     };
   } catch (error: any) {
     console.error('Error in getLLMCompletion:', error);

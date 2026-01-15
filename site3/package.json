@@ -11,8 +11,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@ai-sdk/openai-compatible": "^1.0.28",
-    "ai": "^5.0.106",
+    "@ai-sdk/openai-compatible": "^2.0.10",
+    "ai": "^6.0.35",
     "dotenv": "^17.2.3",
     "express": "^4.18.2",
     "zod": "^4.2.1"
