@@ -36,9 +36,6 @@ export default function Home() {
 
       {completion && (
         <div className="mt-8 p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-          <h3 className="text-lg font-medium text-gray-700 mb-4">
-            Generated Text:
-          </h3>
           <div className="prose prose-gray max-w-none text-gray-600 leading-relaxed">
             <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
               {completion}

@@ -7,7 +7,7 @@ export async function POST(req: Request) {
     const result = streamText({ 
     model,
     prompt,
-    maxOutputTokens: 200, 
+    maxOutputTokens: 2000, 
   }); 
 
   return result.toUIMessageStreamResponse(); 
