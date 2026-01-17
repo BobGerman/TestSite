@@ -8,6 +8,9 @@ const modelProvider = createOpenAICompatible({
   supportsStructuredOutputs: true
 });
 
+// TODO: Remove this debug log in production
+console.log('Initializing weather agent...');
+
 const model = modelProvider(process.env.LLM_MODEL_ID || "");
 console.log(`Using LLM model: ${process.env.LLM_MODEL_ID}`);
 

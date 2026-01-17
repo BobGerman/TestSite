@@ -7,6 +7,9 @@ export const weatherTool = tool({
   async *execute({ city }: { city: string }) {
     yield { state: 'loading' as const };
 
+    // TODO: Remove this debug log in production
+    console.log(`In weatherTool, fetching weather for ${city}`);
+
     // Add artificial delay of 5 seconds
     await new Promise(resolve => setTimeout(resolve, 2000));
 
