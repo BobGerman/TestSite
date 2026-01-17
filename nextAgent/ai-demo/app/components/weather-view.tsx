@@ -7,7 +7,7 @@ export default function WeatherView({
 }) {
   
   // TODO: Remove this debug log in production
-  console.log('WeatherView invocation:', invocation);
+  console.log('WeatherView invocation:', invocation.state);
 
   switch (invocation.state) {
     // example of pre-rendering streaming tool calls:
@@ -15,13 +15,13 @@ export default function WeatherView({
       return <pre>{JSON.stringify(invocation.input, null, 2)}</pre>;
     case 'input-available':
       return (
-        <div key={invocation.input.city} className="text-gray-500">
+        <div key={invocation.input.city} className="text-blue-500">
           Getting weather information for {invocation.input.city}...
         </div>
       );
     case 'output-available':
       return (
-        <div className="text-gray-500">
+        <div className="text-orange-500">
           {invocation.output.state === 'loading'
             ? 'Fetching weather information...'
             : `Weather in ${invocation.input.city}: ${invocation.output.weather}`}
