@@ -1,4 +1,4 @@
-import type { WeatherUIToolInvocation } from '../api/chat/weather-tool';
+import type { WeatherUIToolInvocation } from '../api/weatherAgent/weather-tool';
 
 export default function WeatherView({
   invocation,
