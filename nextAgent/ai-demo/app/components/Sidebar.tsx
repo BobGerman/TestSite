@@ -10,6 +10,7 @@ const navigationLinks = [
   { href: '/pages/streamText', label: 'Stream Text' },
   { href: '/pages/sentiment', label: 'Analyze Sentiment' },
   { href: '/pages/generateRecipe', label: 'Generate Recipe' },
+  { href: '/pages/weatherAgent', label: 'Weather Agent' },
 ];
 
 export default function Sidebar() {
