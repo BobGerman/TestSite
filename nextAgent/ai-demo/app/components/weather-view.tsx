@@ -15,7 +15,7 @@ export default function WeatherView({
       return <pre>{JSON.stringify(invocation.input, null, 2)}</pre>;
     case 'input-available':
       return (
-        <div className="text-gray-500">
+        <div key={invocation.input.city} className="text-gray-500">
           Getting weather information for {invocation.input.city}...
         </div>
       );
