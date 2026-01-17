@@ -5,6 +5,10 @@ export default function WeatherView({
 }: {
   invocation: WeatherUIToolInvocation;
 }) {
+  
+  // TODO: Remove this debug log in production
+  console.log('WeatherView invocation:', invocation);
+
   switch (invocation.state) {
     // example of pre-rendering streaming tool calls:
     case 'input-streaming':

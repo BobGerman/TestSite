@@ -8,9 +8,12 @@ export default function ChatInput({
   status: string;
   onSubmit: (text: string) => void;
   stop?: () => void;
-}) {
+}) {  
   const [text, setText] = useState('');
 
+  // TODO: Remove this debug log in production
+  console.log ('ChatInput status:', status);
+  
   return (
     <form
       onSubmit={e => {
