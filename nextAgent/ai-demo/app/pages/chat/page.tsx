@@ -4,6 +4,10 @@ import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
 import { useState } from 'react';
 
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
+
 export default function Page() {
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({
@@ -18,7 +22,11 @@ export default function Page() {
         <div key={message.id}>
           {message.role === 'user' ? 'User: ' : 'AI: '}
           {message.parts.map((part, index) =>
-            part.type === 'text' ? <span key={index}>{part.text}</span> : null,
+            part.type === 'text' ?
+              <ReactMarkdown key={index} remarkPlugins={[remarkGfm, remarkBreaks]}>
+                {part.text}
+              </ReactMarkdown> :
+              null,
           )}
         </div>
       ))}
