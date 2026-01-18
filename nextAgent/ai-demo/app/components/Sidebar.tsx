@@ -8,6 +8,7 @@ const navigationLinks = [
   { href: '/', label: 'Home' },
   { href: '/pages/generateText', label: 'Generate Text' },
   { href: '/pages/streamText', label: 'Stream Text' },
+  { href: '/pages/chat', label: 'Simple chatbot' },
   { href: '/pages/sentiment', label: 'Analyze Sentiment' },
   { href: '/pages/generateRecipe', label: 'Generate Recipe' },
   { href: '/pages/weatherAgent', label: 'Weather Agent' },
