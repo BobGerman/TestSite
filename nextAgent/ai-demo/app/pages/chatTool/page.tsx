@@ -10,7 +10,7 @@ import { useState } from 'react';
 export default function Chat() {
   const { messages, sendMessage, addToolOutput } = useChat({
     transport: new DefaultChatTransport({
-      api: '/api/chat',
+      api: '/api/chatTool',
     }),
 
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
