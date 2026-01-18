@@ -11,7 +11,7 @@ import remarkBreaks from "remark-breaks";
 export default function Page() {
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({
-      api: '/api/chat',
+      api: '/api/chat'
     }),
   });
   const [input, setInput] = useState('');
