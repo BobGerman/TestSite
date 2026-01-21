@@ -21,8 +21,7 @@ export default function WeatherView({
       );
     case 'output-available':
       return (
-        <div>
-          <hr />
+        <div key={invocation.input.city} className="my-4 p-4 border border-gray-300 rounded">
           {invocation.output.state === 'loading'
             ? 'Fetching weather information...'
             : <div className="text-orange-500">
