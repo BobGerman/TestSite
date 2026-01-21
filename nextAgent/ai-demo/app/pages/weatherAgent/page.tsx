@@ -34,7 +34,7 @@ export default function WeatherAgent() {
                 ) : null;
 
               case 'tool-weather': {
-                return <WeatherView invocation={part} />;
+                return <WeatherView key={index} invocation={part} />;
               }
             }
           })}
