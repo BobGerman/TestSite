@@ -21,6 +21,7 @@ export const weatherTool = tool({
 
     let weather: string;
     let temperatureFarenheit: number;
+    let icon: string;
     if (!OPEN_WEATHER_API_KEY) {
 
       // No API key, use mock data
@@ -30,18 +31,23 @@ export const weatherTool = tool({
       if (latitude === '40.7128') {         // New York
         weather = 'scorching';
         temperatureFarenheit = 95;
+        icon="01d";
       } else if (latitude === '34.0522') {  // Los Angeles
         weather = 'foggy';
         temperatureFarenheit = 65;
+        icon="50d";
       } else if (latitude === '41.8781') {  // Chicago
         weather = 'tsunami';
         temperatureFarenheit = 50;
+        icon="09d";
       } else if (latitude === '37.7749') {  // San Francisco
         weather = 'hurricane';
         temperatureFarenheit = 55;
+        icon="11d";
       } else {
         weather = 'sunny';                  // Default mock weather
         temperatureFarenheit = 75;
+        icon="01d";
       }
     } else {
       // Real API call
@@ -51,14 +57,16 @@ export const weatherTool = tool({
       const data = await response.json();
       const weatherArray = data.weather;
       weather = weatherArray && weatherArray.length > 0 ? weatherArray[0].description : 'unknown';
+      icon = weatherArray && weatherArray.length > 0 ? weatherArray[0].icon : '01d';
       temperatureFarenheit = data.main ? data.main.temp : 0;
     }
     console.log(`Determined weather as ${weather} for city of ${city} at latitude ${latitude}`);
 
     yield {
       state: 'ready' as const,
-      temperatureFarenheit: temperatureFarenheit,
+      temperatureFarenheit,
       weather,
+      icon,
       city,
     };
   },

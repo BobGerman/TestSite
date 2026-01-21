@@ -21,10 +21,15 @@ export default function WeatherView({
       );
     case 'output-available':
       return (
-        <div className="text-orange-500">
+        <div>
+          <hr />
           {invocation.output.state === 'loading'
             ? 'Fetching weather information...'
-            : `Weather in ${invocation.input.city}: ${invocation.output.weather}`}
+            : <div className="text-orange-500">
+              <img src={`https://openweathermap.org/img/wn/${invocation.output.icon}.png`} alt="weather icon" className="inline-block mr-2"/>
+              <span>Weather in {invocation.input.city} is {invocation.output.weather}</span>
+            </div>
+          }
         </div>
       );
     case 'output-error':
