@@ -82,6 +82,15 @@
     outline: none;
 }
 
+.chat-input input {
+    border: solid black;
+    font-size: 14px;
+    width: 80%;
+    font-family: inherit;
+    margin-right: 12px;
+    padding: 8px 12px;  
+}
+
 .chat-input button {
     color: white;
     border-radius: 50%;

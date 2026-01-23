@@ -25,7 +25,6 @@ export const weatherTool = tool({
     if (!OPEN_WEATHER_API_KEY) {
 
       // No API key, use mock data
-
       await new Promise(resolve => setTimeout(resolve, 2000)); // simulate network delay
 
       if (latitude === '40.7128') {         // New York
@@ -49,7 +48,11 @@ export const weatherTool = tool({
         temperatureFarenheit = 75;
         icon="01d";
       }
+
+      console.log(`Using mock weather conditions ${weather} for city of ${city} at latitude ${latitude}`);
+
     } else {
+
       // Real API call
       const response = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${OPEN_WEATHER_API_KEY}&units=imperial`
@@ -59,8 +62,10 @@ export const weatherTool = tool({
       weather = weatherArray && weatherArray.length > 0 ? weatherArray[0].description : 'unknown';
       icon = weatherArray && weatherArray.length > 0 ? weatherArray[0].icon : '01d';
       temperatureFarenheit = data.main ? data.main.temp : 0;
+
+      console.log(`Retrieved OpenWeatherMap conditions ${weather} for city of ${city} at latitude ${latitude}`);
+
     }
-    console.log(`Determined weather as ${weather} for city of ${city} at latitude ${latitude}`);
 
     yield {
       state: 'ready' as const,
