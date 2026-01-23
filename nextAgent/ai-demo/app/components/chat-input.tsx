@@ -32,6 +32,7 @@ export default function ChatInput({
       {(status === 'ready' ) && (
         <button
           type="submit"
+          className="chat-input-send-button"
         >
           Send
         </button>
@@ -40,6 +41,7 @@ export default function ChatInput({
         <button
           type="submit"
           onClick={stop}
+          className="chat-input-stop-button"
         >
           Stop
         </button>
