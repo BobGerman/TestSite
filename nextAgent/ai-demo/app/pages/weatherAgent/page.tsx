@@ -6,6 +6,7 @@ import ChatInput from '../../components/chat-input';
 import WeatherView from '../../components/weather-view';
 import type { WeatherAgentUIMessage } from '../../api/weatherAgent/weather-agent';
 import { DefaultChatTransport } from 'ai';
+import './chatUi.css';
 
 export default function WeatherAgent() {
   const { status, sendMessage, messages, stop } =
@@ -29,7 +30,6 @@ export default function WeatherAgent() {
 
   return (
     <>
-      <link rel="stylesheet" href="/chatUi.css" />
       <div className="chat-messages" id="chatMessages" ref={chatMessagesRef}>
         <div className="message bot">
           {messages?.map(message => (
