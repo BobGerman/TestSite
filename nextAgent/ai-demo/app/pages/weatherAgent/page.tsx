@@ -19,8 +19,8 @@ export default function WeatherAgent() {
         }
       );
 
+  // Set up auto-scroll to bottom on new messages
   const chatMessagesRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const chatMessages = chatMessagesRef.current;
     if (!chatMessages) return;
