@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { useChat } from '@ai-sdk/react';
 import ChatInput from '../../components/chat-input';
 import WeatherView from '../../components/weather-view';
@@ -17,10 +18,19 @@ export default function WeatherAgent() {
         }
       );
 
+  const chatMessagesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const chatMessages = chatMessagesRef.current;
+    if (!chatMessages) return;
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }, [messages]);
+
   return (
     <>
       <link rel="stylesheet" href="/chatUi.css" />
-      <div className="chat-messages" id="chatMessages">
+      <div className="chat-messages" id="chatMessages" ref={chatMessagesRef}>
         <div className="message bot">
           {messages?.map(message => (
             <div key={message.id} className="message-content">
