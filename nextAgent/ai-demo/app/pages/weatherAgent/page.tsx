@@ -7,7 +7,8 @@ import WeatherView from '../../components/weather-view';
 import { DefaultChatTransport } from 'ai';
 
 export default function WeatherAgent() {
-  const { status, sendMessage, messages } = useChat<WeatherAgentUIMessage>
+  const { status, sendMessage, messages, stop } =
+    useChat<WeatherAgentUIMessage>
     (
       {
         transport: new DefaultChatTransport({
@@ -48,7 +49,7 @@ export default function WeatherAgent() {
         </div>
       </div>
         <div className="chat-input">
-          <ChatInput status={status} onSubmit={text => sendMessage({ text })} />
+          <ChatInput status={status} onSubmit={text => sendMessage({ text })} stop={stop} />
         </div>
     </>
   );
