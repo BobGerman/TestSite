@@ -8,41 +8,58 @@ import { DefaultChatTransport } from 'ai';
 
 export default function WeatherAgent() {
   const { status, sendMessage, messages } = useChat<WeatherAgentUIMessage>
-  (
-    {
-    transport: new DefaultChatTransport({
-      api: '/api/weatherAgent',
-    }),
-  }
-);
+    (
+      {
+        transport: new DefaultChatTransport({
+          api: '/api/weatherAgent',
+        }),
+      }
+    );
 
   return (
-    <div className="flex flex-col py-24 mx-auto w-full max-w-md stretch">
-      {messages?.map(message => (
-        <div key={message.id} className="whitespace-pre-wrap">
-          <strong>{`${message.role}: `}</strong>
-          {message.parts.map((part, index) => {
-            switch (part.type) {
-              case 'text':
-                return <div key={index}>{part.text}</div>;
+    <>
+      <link rel="stylesheet" href="/chatUi.css" />
+      <div className="chat-body">
+        <div className="chat-container">
+          <div className="chat-header">
+            <h1>Chat Assistant</h1>
+          </div>
 
-              case 'step-start':
-                return index > 0 ? (
-                  <div key={index} className="text-gray-500">
-                    <hr className="my-2 border-gray-300" />
-                  </div>
-                ) : null;
+          <div className="chat-messages" id="chatMessages">
+            <div className="message bot">
+              {messages?.map(message => (
+                <div key={message.id} className="message-content">
+                  <strong>{`${message.role}: `}</strong>
+                  {message.parts.map((part, index) => {
+                    switch (part.type) {
+                      case 'text':
+                        return <div key={index}>{part.text}</div>;
 
-              case 'tool-weather': {
-                return <WeatherView key={index} invocation={part} />;
-              }
-            }
-          })}
-          <br />
+                      case 'step-start':
+                        return index > 0 ? (
+                          <div key={index} className="text-gray-500">
+                            <hr className="my-2 border-gray-300" />
+                          </div>
+                        ) : null;
+
+                      case 'tool-weather': {
+                        return <WeatherView key={index} invocation={part} />;
+                      }
+                    }
+                  })}
+                  <br />
+                </div>
+              ))}
+
+              <div className="chat-input-area">
+                <div className="input-wrapper">
+                  <ChatInput status={status} onSubmit={text => sendMessage({ text })} />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      ))}
-
-      <ChatInput status={status} onSubmit={text => sendMessage({ text })} />
-    </div>
+      </div>
+    </>
   );
 }
