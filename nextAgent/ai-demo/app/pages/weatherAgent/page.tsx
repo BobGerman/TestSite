@@ -2,20 +2,20 @@
 
 import { useChat } from '@ai-sdk/react';
 import ChatInput from '../../components/chat-input';
-import type { WeatherAgentUIMessage } from '../../api/weatherAgent/weather-agent';
 import WeatherView from '../../components/weather-view';
+import type { WeatherAgentUIMessage } from '../../api/weatherAgent/weather-agent';
 import { DefaultChatTransport } from 'ai';
 
 export default function WeatherAgent() {
   const { status, sendMessage, messages, stop } =
     useChat<WeatherAgentUIMessage>
-    (
-      {
-        transport: new DefaultChatTransport({
-          api: '/api/weatherAgent',
-        }),
-      }
-    );
+      (
+        {
+          transport: new DefaultChatTransport({
+            api: '/api/weatherAgent',
+          }),
+        }
+      );
 
   return (
     <>
@@ -48,9 +48,11 @@ export default function WeatherAgent() {
 
         </div>
       </div>
-        <div className="chat-input">
-          <ChatInput status={status} onSubmit={text => sendMessage({ text })} stop={stop} />
-        </div>
+      <div className="chat-input">
+        <ChatInput status={status}
+          onSubmit={text => sendMessage({ text })}
+          stop={stop} />
+      </div>
     </>
   );
 }
