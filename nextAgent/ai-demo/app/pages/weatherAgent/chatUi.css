@@ -107,6 +107,10 @@
     background-color: darkred;
 }
 
+.chat-input-reset-button {
+    background-color: darkgray;
+}
+
 @media (max-width: 600px) {
     .chat-container {
         max-height: 100vh;
