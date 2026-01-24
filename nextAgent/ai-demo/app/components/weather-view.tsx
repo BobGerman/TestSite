@@ -24,9 +24,13 @@ export default function WeatherView({
         <div key={invocation.input.city} className="my-4 p-4 border border-gray-300 rounded">
           {invocation.output.state === 'loading'
             ? 'Fetching weather information...'
-            : <div className="text-orange-500">
-              <img src={`https://openweathermap.org/img/wn/${invocation.output.icon}.png`} alt="weather icon" className="inline-block mr-2"/>
-              <span>Weather in {invocation.input.city} is {invocation.output.weather}</span>
+            : <div className="text-yellow-500 bg-gradient-to-r from-blue-500 to-black p-4 rounded-md">
+              <img src={`https://openweathermap.org/img/wn/${invocation.output.icon}.png`}
+                   alt="weather icon" className="bg-gray-300 border inline-block mr-2 float-left"/>
+              <span>Weather in {invocation.input.city}</span><br />
+              <span className="text-2xl align-bottom">{invocation.output.temperatureFarenheit}</span>
+              <span className="text-xl align-bottom"><sup>°F</sup></span>
+              <span className="text-xl align-bottom">&nbsp;{invocation.output.weather}</span>
             </div>
           }
         </div>
