@@ -1,3 +1,5 @@
+// Allow use of Open Weather Map icons
+/* eslint-disable @next/next/no-img-element */
 import type { WeatherUIToolInvocation } from '../api/weatherAgent/weather-tool';
 
 export default function WeatherView({
@@ -6,9 +8,6 @@ export default function WeatherView({
   invocation: WeatherUIToolInvocation;
 }) {
   
-  // TODO: Remove this debug log in production
-  console.log('WeatherView invocation:', invocation.state);
-
   switch (invocation.state) {
     // example of pre-rendering streaming tool calls:
     case 'input-streaming':
