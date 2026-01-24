@@ -6,6 +6,9 @@ import ChatInput from '../../components/chat-input';
 import WeatherView from '../../components/weather-view';
 import type { WeatherAgentUIMessage } from '../../api/weatherAgent/weather-agent';
 import { DefaultChatTransport } from 'ai';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
 import './chatUi.css';
 
 export default function WeatherAgent() {
@@ -38,7 +41,11 @@ export default function WeatherAgent() {
               {message.parts.map((part, index) => {
                 switch (part.type) {
                   case 'text':
-                    return <div key={index}>{part.text}</div>;
+                    return (
+                      <ReactMarkdown key={index} remarkPlugins={[remarkGfm, remarkBreaks]}>
+                        {part.text}
+                      </ReactMarkdown>
+                    );
 
                   case 'step-start':
                     return index > 0 ? (
