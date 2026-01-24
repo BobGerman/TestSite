@@ -22,6 +22,14 @@ export const weatherTool = tool({
     let weather: string;
     let temperatureFarenheit: number;
     let icon: string;
+    let temperatureFeelsLike: number;
+    let humidity: number;
+    let visibilityFeet: number;
+    let windSpeedMilesPerHour: number;
+    let windDirectionDegrees: number;
+    let windGustMilesPerHour: number;
+    let timezoneFromUtcSeconds: number;
+
     if (!OPEN_WEATHER_API_KEY) {
 
       // No API key, use mock data
@@ -48,6 +56,13 @@ export const weatherTool = tool({
         temperatureFarenheit = 75;
         icon="01d";
       }
+      temperatureFeelsLike = temperatureFarenheit - 2;
+      humidity = 50;
+      visibilityFeet = 10000;
+      windSpeedMilesPerHour = 10;
+      windDirectionDegrees = 90;
+      windGustMilesPerHour = 20;
+      timezoneFromUtcSeconds = -18000;
 
       console.log(`Using mock weather conditions ${weather} for city of ${city} at latitude ${latitude}`);
 
@@ -62,6 +77,14 @@ export const weatherTool = tool({
       weather = weatherArray && weatherArray.length > 0 ? weatherArray[0].description : 'unknown';
       icon = weatherArray && weatherArray.length > 0 ? weatherArray[0].icon : '01d';
       temperatureFarenheit = data.main ? data.main.temp : 0;
+      temperatureFeelsLike = data.main ? data.main.feels_like : 0;
+      humidity = data.main ? data.main.humidity : 0;
+      visibilityFeet = data.visibility ? data.visibility * 3.28084 : 0; // convert meters to feet
+      windSpeedMilesPerHour = data.wind ? data.wind.speed : 0;
+      windDirectionDegrees = data.wind ? data.wind.deg : 0;
+      windGustMilesPerHour = data.wind && data.wind.gust ? data.wind.gust : 0;
+      timezoneFromUtcSeconds = data.timezone ? data.timezone : 0;
+
 
       console.log(`Retrieved OpenWeatherMap conditions ${weather} for city of ${city} at latitude ${latitude}`);
 
@@ -69,10 +92,17 @@ export const weatherTool = tool({
 
     yield {
       state: 'ready' as const,
-      temperatureFarenheit,
       weather,
       icon,
       city,
+      temperatureFarenheit,
+      temperatureFeelsLike,
+      humidity,
+      visibilityFeet,
+      windSpeedMilesPerHour,
+      windDirectionDegrees,
+      windGustMilesPerHour,
+      timezoneFromUtcSeconds
     };
   },
 });
