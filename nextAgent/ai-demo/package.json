@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "devlab25": "next dev -H devlab25.lab",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
