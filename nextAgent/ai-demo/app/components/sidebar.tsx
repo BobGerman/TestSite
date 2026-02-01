@@ -12,6 +12,7 @@ const navigationLinks = [
   { href: '/pages/sentiment', label: 'Analyze Sentiment' },
   { href: '/pages/generateRecipe', label: 'Generate Recipe' },
   { href: '/pages/weatherAgent', label: 'Weather Agent' },
+  { href: '/pages/mcpAgent', label: 'MCP Agent' },
   { href: '/pages/chatTool', label: 'WORK IN PROGRESS: Chat Tool' },
 ];
 
