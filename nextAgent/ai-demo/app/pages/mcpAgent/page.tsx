@@ -3,17 +3,18 @@
 import { useEffect, useRef } from 'react';
 import { useChat } from '@ai-sdk/react';
 import ChatInput from '../../components/chat-input';
-import WeatherView from '../../components/weather-view';
-import type { WeatherAgentUIMessage } from '../../api/weatherAgent/weather-agent';
+import type { McpAgentUIMessage } from '../../api/mcpAgent/mcp-agent';
+// import type { WeatherAgentUIMessage } from '../../api/weatherAgent/weather-agent';
 import { DefaultChatTransport } from 'ai';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import './chatUi.css';
+import { de } from 'zod/locales';
 
-export default function WeatherAgent() {
+export default function McpAgent() {
   const { status, sendMessage, messages, stop } =
-    useChat<WeatherAgentUIMessage>
+    useChat<McpAgentUIMessage>
       (
         {
           transport: new DefaultChatTransport({
@@ -54,9 +55,10 @@ export default function WeatherAgent() {
                       </div>
                     ) : null;
 
-                  case 'tool-weather': {
-                    return <WeatherView key={index} invocation={part} />;
-                  }
+                    default:
+                      return <div key={index}>
+                        `Called tool: {part.type}`
+                      </div>;
                 }
               })}
               <br />

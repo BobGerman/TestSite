@@ -1,6 +1,6 @@
-import { mcpTool } from './mcp-tool';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
-import { ToolLoopAgent, InferAgentUIMessage } from 'ai';
+import { createMCPClient } from '@ai-sdk/mcp';
+import { ToolLoopAgent, InferAgentUIMessage, type Tool } from 'ai';
 
 const modelProvider = createOpenAICompatible({
   name: 'lmstudio',
@@ -8,18 +8,25 @@ const modelProvider = createOpenAICompatible({
   supportsStructuredOutputs: true
 });
 
-// TODO: Remove this debug log in production
-console.log('Initializing MCP agent...');
-
 const model = modelProvider(process.env.LLM_MODEL_ID || "");
 console.log(`Using LLM model: ${process.env.LLM_MODEL_ID}`);
+
+const mcpClient = await createMCPClient({
+  transport: {
+    type: 'http',
+    url: 'http://ubuntu26.lab:3001/mcp/messages',
+  },
+});
+
+const mcpTools = await mcpClient.tools();
 
 export const mcpAgent = new ToolLoopAgent({
   model,
   instructions: 'You are a helpful assistant.',
-  tools: {
-    mcp: mcpTool,
-  },
+  tools: mcpTools as Record<string, Tool<any, any>>,
+  onFinish: async (output) => {
+    mcpClient.close();
+  }
 });
 
 export type McpAgentUIMessage = InferAgentUIMessage<typeof mcpAgent>;
