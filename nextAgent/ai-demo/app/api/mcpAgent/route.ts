@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   const { messages } = await request.json();
 
   // TODO: Remove this debug log in production
-  console.log(`In /api/weatheragent; received ${messages.length} messages`);
+  console.log(`In /api/mcpAgent; received ${messages.length} messages`);
 
   return createAgentUIStreamResponse({
     agent: mcpAgent,
