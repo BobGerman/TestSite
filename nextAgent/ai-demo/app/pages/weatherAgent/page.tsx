@@ -9,9 +9,10 @@ import { DefaultChatTransport } from 'ai';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
-import './chatUi.css';
+import '../../styles/chatUi.css';
 
 export default function WeatherAgent() {
+
   const { status, sendMessage, messages, stop } =
     useChat<WeatherAgentUIMessage>
       (

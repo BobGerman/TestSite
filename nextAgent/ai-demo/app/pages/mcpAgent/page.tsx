@@ -9,7 +9,7 @@ import { DefaultChatTransport } from 'ai';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
-import './chatUi.css';
+import '../../styles/chatUi.css';
 import { de } from 'zod/locales';
 
 export default function McpAgent() {
@@ -55,10 +55,10 @@ export default function McpAgent() {
                       </div>
                     ) : null;
 
-                    default:
-                      return <div key={index}>
-                        `Called tool: {part.type}`
-                      </div>;
+                  default:
+                    return <div key={index}>
+                      `Called tool: {part.type}`
+                    </div>;
                 }
               })}
               <br />

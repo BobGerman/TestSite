@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "devlab25": "next dev -H devlab25.lab",
-    "devlab26": "next dev -H ubuntu26.lab",
+    "dev25": "next dev -H devlab25.lab",
+    "dev26": "next dev -H ubuntu26.lab",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
