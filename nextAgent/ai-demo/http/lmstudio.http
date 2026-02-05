@@ -1,5 +1,5 @@
 @hostname = tehuti.lab
-@port = 81
+@port = 1234
 # @model_id = openai/gpt-oss-120b
 @model_id = llama-3.1-8b-structuredie-v2.2
 @default_prompt = Find a creative way to say, 'Hello, world!'
