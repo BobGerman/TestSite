@@ -10,6 +10,7 @@ const navigationLinks = [
   { href: '/pages/streamText', label: 'Stream Text' },
   { href: '/pages/sentiment', label: 'Analyze Sentiment' },
   { href: '/pages/generateRecipe', label: 'Generate Recipe' },
+  { href: '/pages/generateEmbed', label: 'Generate Embed' },
   { href: '/pages/chat', label: 'Simple chatbot' },
   { href: '/pages/weatherAgent', label: 'Weather Agent' },
   { href: '/pages/mcpAgent', label: 'MCP Agent' },
