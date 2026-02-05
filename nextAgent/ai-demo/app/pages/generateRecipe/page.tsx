@@ -21,23 +21,25 @@ export default function Home() {
 
       const responseObject: GeneratedRecipe = await response.json();
       const data = responseObject.output;
-      
-      const formattedRecipe =
-`Recipe Name: ${data.name}
-Description: ${data.description}
-Ingredients:
-${data.ingredients.map(ing => 
-  `- ${ing.amount}${ing.amount ? ' ' : ''}${ing.name}`).join("\n")}
 
-Steps:
-${data.steps.map((step, index) => `${index + 1}. ${step}`).join("\n")}
-`;
+      // #region Format Recipe Output
+      //       const formattedRecipe =
+      //         `Recipe Name: ${data.name}
+      // Description: ${data.description}
+      // Ingredients:
+      // ${data.ingredients.map(ing =>
+      //           `- ${ing.amount}${ing.amount ? ' ' : ''}${ing.name}`).join("\n")}
 
-      setResult(formattedRecipe);
+      // Steps:
+      // ${data.steps.map((step, index) => `${index + 1}. ${step}`).join("\n")}
+      // `;
+      // #endregion
 
-      // Alternatively, to see the raw JSON object, uncomment the line below:
-      //
-      // setResult(JSON.stringify(data, null, 2));
+      setResult(
+        // formattedRecipe +
+        // "\n----------------\n" +
+        JSON.stringify(data, null, 2)
+      );
 
     } catch (error) {
       console.error("Error:", error);
