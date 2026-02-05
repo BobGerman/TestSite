@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 import { useChat } from '@ai-sdk/react';
 import ChatInput from '../../components/chat-input';
 import type { McpAgentUIMessage } from '../../api/mcpAgent/mcp-agent';
-// import type { WeatherAgentUIMessage } from '../../api/weatherAgent/weather-agent';
 import { DefaultChatTransport } from 'ai';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
