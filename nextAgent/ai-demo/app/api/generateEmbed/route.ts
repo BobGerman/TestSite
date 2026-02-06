@@ -1,19 +1,35 @@
-import { embed } from "ai";
+import { embed, cosineSimilarity } from "ai";
 import embeddimgModel from "../../models/embedModel";
+
+export interface ResultType {
+  embedding: number[];
+  similarEmbeddings: { name: string, similarity: number }[];
+}
+
+// In-memory store for known embeddings
+const knownEmbeddings: { name: string, embedding: number[] }[] = [];
 
 export async function POST(req: Request) {
 
-  const { prompt } = await req.json();
+  const { name, content } = await req.json();
+  console.log(`Generating ${name} embedding for content: ${content}`);
 
   const { embedding } = await embed({
     model: embeddimgModel,
-    value: prompt || "Hello, world!",
+    value: content || "Hello, world!",
   });
 
-  for (const val of embedding) {
-    console.log(val);
-  }
+  const similarEmbeddings: { name: string, similarity: number }[] =
+    knownEmbeddings.map(({ name: knownName, embedding: knownEmbedding }) => {
+      const similarity = cosineSimilarity(embedding, knownEmbedding);
+      return { name: knownName, similarity };
+    })
+      .sort((a, b) => b.similarity - a.similarity); // Sort by similarity descending
 
-  return Response.json({ embedding });
+  // Add the new embedding in the in-memory store
+  knownEmbeddings.push({ name, embedding });
+  console.log(`Stored embedding for ${name}. Total embeddings: ${knownEmbeddings.length}`);
+
+  return Response.json({ similarEmbeddings, embedding } as ResultType);
 
 } 
