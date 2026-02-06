@@ -27,10 +27,15 @@ export default function Home() {
 
       const data = await response.json();
       setResult(data.embedding);
+
     } catch (error) {
+
       console.error("Error:", error);
+
     } finally {
+
       setLoading(false);
+
     }
   };
 

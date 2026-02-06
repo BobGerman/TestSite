@@ -1,5 +1,5 @@
 import { generateText, Output } from 'ai';
-import model from '../aimodel';
+import model from '../../models/aimodel';
 // import { generateObject } from 'ai';
 import { schema } from './RecipeSchema';
 

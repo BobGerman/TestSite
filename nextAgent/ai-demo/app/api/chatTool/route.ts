@@ -1,4 +1,4 @@
-import model from "../aimodel";
+import model from "../../models/aimodel";
 
 import { convertToModelMessages, streamText, UIMessage } from 'ai';
 import { z } from 'zod';
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       getWeatherInformation: {
         description: 'show the weather in a given city to the user',
         inputSchema: z.object({ city: z.string() }),
-        execute: async ({}: { city: string }) => {
+        execute: async ({ }: { city: string }) => {
           const weatherOptions = ['sunny', 'cloudy', 'rainy', 'snowy', 'windy'];
           return weatherOptions[
             Math.floor(Math.random() * weatherOptions.length)

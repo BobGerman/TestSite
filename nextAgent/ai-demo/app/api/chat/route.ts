@@ -1,4 +1,4 @@
-import model from "../aimodel";
+import model from "../../models/aimodel";
 import { convertToModelMessages, streamText, UIMessage } from 'ai';
 
 export async function POST(req: Request) {

@@ -1,15 +1,15 @@
 import { streamText } from "ai";
-import model from "../aimodel";
+import model from "../../models/aimodel";
 
-export async function POST(req: Request) { 
-  const { prompt } = await req.json(); 
+export async function POST(req: Request) {
+  const { prompt } = await req.json();
 
-    const result = streamText({ 
+  const result = streamText({
     model,
     prompt,
-    maxOutputTokens: 2000, 
-  }); 
+    maxOutputTokens: 2000,
+  });
 
-  return result.toUIMessageStreamResponse(); 
+  return result.toUIMessageStreamResponse();
 
 } 

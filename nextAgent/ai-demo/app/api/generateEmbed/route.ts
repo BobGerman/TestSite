@@ -1,19 +1,10 @@
 import { embed } from "ai";
-// import model from "../aimodel";
 import { LanguageModel } from 'ai';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 
 export async function POST(req: Request) {
 
   const { prompt } = await req.json();
-
-  // const { text } = await generateText({
-  //   model,
-  //   prompt: prompt || "Greet the user",
-  //   system: systemPrompt || "You are a friendly AI assistant",
-  //   temperature : temperature ?? 0.7,
-  //   maxOutputTokens: 200,
-  // });
 
   const modelProvider = createOpenAICompatible({
     name: 'lmstudio',
