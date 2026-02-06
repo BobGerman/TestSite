@@ -1,5 +1,5 @@
 import { streamText } from "ai";
-import model from "../../models/aimodel";
+import model from "../../models/llmModel";
 
 export async function POST(req: Request) {
   const { prompt } = await req.json();

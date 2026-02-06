@@ -1,4 +1,3 @@
-// import * as dotenv from 'dotenv';
 import { LanguageModel } from 'ai';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 

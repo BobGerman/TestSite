@@ -1,5 +1,5 @@
 import { generateText, Output } from "ai";
-import model from "../../models/aimodel";
+import model from "../../models/llmModel";
 
 const SENTIMENT_OPTIONS = ["Positive", "Mixed", "Negative", "Neutral"];
 
