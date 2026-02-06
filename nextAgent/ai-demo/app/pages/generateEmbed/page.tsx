@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ResultType } from "../../api/generateEmbed/route";
+import { set } from "zod";
 
 export default function Home() {
   const [name, setName] = useState("");
@@ -10,6 +11,7 @@ export default function Home() {
     embedding: [],
     similarEmbeddings: [],
   } as ResultType | null);
+  const [previousName, setPreviousName] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,6 +27,9 @@ export default function Home() {
 
       const data: ResultType = await response.json();
       setResult(data);
+      setPreviousName(name);
+      setName("");
+      setContent("");
 
     } catch (error) {
 
@@ -68,12 +73,15 @@ export default function Home() {
 
       {result && (
         <div className="mt-8 p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+          <h3 className="text-lg font-medium text-gray-700 mb-4">
+            Similar to {previousName}:
+          </h3>
           <ul className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words mb-6">
             {displaySimilarEmbeddings(result)}
           </ul>
           <hr />
           <h3 className="text-lg font-medium text-gray-700 mb-4">
-            Full embedding for this content:
+            Full embedding for {previousName}:
           </h3>
           <ol className="text-gray-600 leading-relaxed whitespace-pre-wrap break-words">
             {displayEmbedding(result)}
@@ -89,8 +97,8 @@ function displaySimilarEmbeddings(result: ResultType) {
   return result.similarEmbeddings.map(({ name, similarity }, index) => (
     <li key={index} className="text-gray-600 ml-5 list-disc">
       {name} ({similarity.toFixed(4)})
-      {index === 0 && 'Most similar'}
-      {index === result.similarEmbeddings.length - 1 && 'Least similar'}
+      {index === 0 && ' ◄◄ Most similar'}
+      {index === result.similarEmbeddings.length - 1 && ' ◄◄ Least similar'}
       <br />
     </li>
   ));

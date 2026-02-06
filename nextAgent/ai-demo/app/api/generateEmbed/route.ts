@@ -7,12 +7,18 @@ export interface ResultType {
 }
 
 // In-memory store for known embeddings
-const knownEmbeddings: { name: string, embedding: number[] }[] = [];
+let knownEmbeddings: { name: string, embedding: number[] }[] = [];
 
 export async function POST(req: Request) {
 
   const { name, content } = await req.json();
   console.log(`Generating ${name} embedding for content: ${content}`);
+
+  if (!name || !content) {
+    knownEmbeddings = [];
+    console.log("Cleared known embeddings store.");
+    return Response.json({ embedding: [], similarEmbeddings: [] })
+  }
 
   const { embedding } = await embed({
     model: embeddimgModel,
