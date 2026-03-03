@@ -1,0 +1,38 @@
+### Get all customers
+GET http://localhost:3000/api/customers
+
+###
+
+### Get customer by ID
+GET http://localhost:3000/api/customers/1
+
+###
+
+### Create a new customer
+POST http://localhost:3000/api/customers
+Content-Type: application/json
+
+{
+  "name": "New Customer",
+  "email": "newcustomer@example.com",
+  "phone": "999-888-7777"
+}
+
+###
+
+### Update a customer
+PUT http://localhost:3000/api/customers/1
+Content-Type: application/json
+
+{
+  "name": "Updated Customer Name",
+  "email": "updated@example.com",
+  "phone": "555-444-3333"
+}
+
+###
+
+### Delete a customer
+DELETE http://localhost:3000/api/customers/1
+
+###
