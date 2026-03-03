@@ -7,12 +7,14 @@ export const weatherTool = tool({
 
   inputSchema: z.object({
     city: z.string(),
-    latitude: z.string(),
-    longitude: z.string()
+    // NOTE: Some models send numeric lat/long even if the schema
+    // specifies string, so we need to accept both types here
+    latitude: z.union([z.string(), z.number()]),
+    longitude: z.union([z.string(), z.number()])
   }),
 
   async *execute({ city, latitude, longitude }: {
-    city: string, latitude: string, longitude: string
+    city: string, latitude: string | number, longitude: string | number
   }) {
 
     yield { state: 'loading' as const };
@@ -38,23 +40,23 @@ export const weatherTool = tool({
       if (latitude === '40.7128') {         // New York
         weather = 'scorching';
         temperatureFarenheit = 95;
-        icon="01d";
+        icon = "01d";
       } else if (latitude === '34.0522') {  // Los Angeles
         weather = 'foggy';
         temperatureFarenheit = 65;
-        icon="50d";
+        icon = "50d";
       } else if (latitude === '41.8781') {  // Chicago
         weather = 'tsunami';
         temperatureFarenheit = 50;
-        icon="09d";
+        icon = "09d";
       } else if (latitude === '37.7749') {  // San Francisco
         weather = 'hurricane';
         temperatureFarenheit = 55;
-        icon="11d";
+        icon = "11d";
       } else {
         weather = 'sunny';                  // Default mock weather
         temperatureFarenheit = 75;
-        icon="01d";
+        icon = "01d";
       }
       temperatureFeelsLike = temperatureFarenheit - 2;
       humidity = 50;
@@ -70,7 +72,7 @@ export const weatherTool = tool({
 
       // Real API call
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${OPEN_WEATHER_API_KEY}&units=imperial`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${latitude.toString()}&lon=${longitude.toString()}&appid=${OPEN_WEATHER_API_KEY}&units=imperial`
       );
       const data = await response.json();
       const weatherArray = data.weather;
