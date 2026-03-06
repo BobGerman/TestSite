@@ -1,0 +1,6 @@
+
+
+
+## Get postings
+GET https://jsonplaceholder.typicode.com/posts
+###
