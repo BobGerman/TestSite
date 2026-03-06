@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Customer Management</h1>
+        <div id="customer-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="customers-table-body">
+                    <!-- Customers will be populated here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <button id="add-customer-btn">Add Customer</button>
+    </div>
+
+    <!-- Modal for adding/editing customers -->
+    <div id="customer-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Add Customer</h2>
+            <form id="customer-form">
+                <input type="hidden" id="customer-id">
+                <div>
+                    <label for="customer-name">Name:</label>
+                    <input type="text" id="customer-name" required>
+                </div>
+                <div>
+                    <label for="customer-email">Email:</label>
+                    <input type="email" id="customer-email" required>
+                </div>
+                <div>
+                    <label for="customer-phone">Phone:</label>
+                    <input type="text" id="customer-phone">
+                </div>
+                <button type="submit">Save Customer</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
