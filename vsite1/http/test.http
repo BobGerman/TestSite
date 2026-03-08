@@ -1,0 +1,29 @@
+# Customer API Test Requests
+
+### List all customers
+GET http://localhost:3000/api/customers HTTP/1.1
+
+### Get a single customer by ID
+GET http://localhost:3000/api/customers/1 HTTP/1.1
+
+### Create a new customer
+POST http://localhost:3000/api/customers HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "phone": "555-9999"
+}
+
+### Update an existing customer
+PUT http://localhost:3000/api/customers/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Alice Johnson Updated",
+  "email": "alice.new@example.com"
+}
+
+### Delete a customer
+DELETE http://localhost:3000/api/customers/5 HTTP/1.1
