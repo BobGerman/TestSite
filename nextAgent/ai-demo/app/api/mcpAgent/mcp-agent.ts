@@ -14,7 +14,7 @@ console.log(`Using LLM model: ${process.env.LLM_MODEL_ID}`);
 const mcpClient = await createMCPClient({
   transport: {
     type: 'http',
-    url: 'http://ubuntu26.lab:3001/mcp/messages',
+    url: process.env.MCP_URL || 'http://localhost:3001/mcp'
   },
 });
 
