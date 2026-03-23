@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   const DEFAULT_USER_PROMPT = 'Old Fashioned cocktail';
   const DEFAULT_TEMPERATURE = 0.5;
 
-  const { output } = await generateText({ // generateObject({
+  const { output } = await generateText({
     model,
     prompt: prompt || DEFAULT_USER_PROMPT,
     system: DEFAULT_SYSTEM_PROMPT,
